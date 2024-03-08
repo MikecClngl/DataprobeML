@@ -1,27 +1,74 @@
-#container {
+ion-content {
+  --background: linear-gradient(to bottom, #050320, #2d507e);
+}
+
+.ion-padding {
+  background-color: transparent !important;
+}
+
+.ion-text-center{
+  margin-top:15vh;
+  color: rgb(255, 255, 255);
+  font-size: 3em;
+}
+
+.subtitle{
+  margin-bottom: 15vh;
+  color: white;
   text-align: center;
+}
 
+.custom-card {
+  border-radius: 15px;
+  background-color: #3f67a1bb;
+  height: 30em;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top:5vh;
+}
+
+.uploadFile{
+  border-radius: 50px;
+  height: 7vh;
+  width: 45vh;
+  color: #ffffff;
+}
+
+.inputFile{
+  opacity: 0;
   position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
   left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  cursor: pointer;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.fileName{
+  color: white;
+  margin-bottom: 3vh;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+.checkboxList{
+  background-color: transparent;
+  color: white;
+  display: flex;
+  flex-direction: column;
 }
 
-#container a {
-  text-decoration: none;
+.submit{
+  margin-top: 2vh;
+  width: 15vh;
+}
+
+.view-history{
+  border-radius: 50px;
+  margin-top: 2vh;
+  height: 7vh;
+  width: 45vh;
 }
