@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -7,16 +8,19 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
+  constructor(private alertController: AlertController){}
+
   fileIsInsert: boolean = false;
   fileName: string | undefined;
   fileType: string | undefined;
+  reviewLabel: string | undefined;
   checkboxValues = {
     bleu: false,
     codebleu: false,
     crystalbleu: false
   };
 
-  //Function to manage file uploading
+  //Manage file uploading
   handleFileInput(event: any){
     const file = event.target.files[0];
 
@@ -27,8 +31,33 @@ export class HomePage {
     }
   }
 
-  //Function to see if almost one checkbox is selected for button "submit"
+  //Function to see if almost one checkbox is selected for activate button "submit"
   checkboxSelected(): boolean {
     return this.checkboxValues.bleu || this.checkboxValues.codebleu || this.checkboxValues.crystalbleu;
+  }
+
+  //Alert for enter the name of review
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Insert review name:',
+      inputs: [
+        {
+          placeholder: 'Name',
+          cssClass: 'alert-input',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Confirm',
+          cssClass: 'alert-button-blue',
+        },
+        {
+          text: 'Cancel',
+          cssClass: 'alert-button-red',
+        },
+      ],
+    });
+
+  await alert.present();
   }
 }
