@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,8 @@ import { AlertController } from '@ionic/angular';
 })
 export class HomePage {
 
-  constructor(private alertController: AlertController){}
+  constructor(
+      private alertController: AlertController){}
 
   fileIsInsert: boolean = false;
   fileName: string | undefined;
@@ -28,6 +30,7 @@ export class HomePage {
       this.fileIsInsert = true;
       this.fileName = file.name;
       this.fileType = file.type;
+      console.log(file);
     }
   }
 
@@ -50,6 +53,10 @@ export class HomePage {
         {
           text: 'Confirm',
           cssClass: 'alert-button-blue',
+          handler: (input) => {
+            this.reviewLabel = input[0];
+            console.log(this.reviewLabel);
+        },
         },
         {
           text: 'Cancel',
