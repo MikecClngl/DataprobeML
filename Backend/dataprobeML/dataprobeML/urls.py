@@ -21,4 +21,5 @@ from fileAnalyzer import views
 urlpatterns = [
     path('', admin.site.urls),
     path('review/', views.create_review, name='review'),
+    path('get_csrf_token/', views.get_csrf_token, name="get_csrf_token")
 ]

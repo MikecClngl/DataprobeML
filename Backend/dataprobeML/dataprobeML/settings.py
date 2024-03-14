@@ -50,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
 ]
 
 ROOT_URLCONF = 'dataprobeML.urls'
@@ -128,3 +130,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/files/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8100',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8100'
+]
+
+CSRF_COOKIE_SECURE = False;
