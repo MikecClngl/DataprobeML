@@ -1,8 +1,8 @@
 from django.contrib import admin
-from fileAnalyzer.models import ReviewModel
+from fileAnalyzer.models import Review
 
 # Register your models here.
-class ReviewModelAdmin(admin.ModelAdmin):
+class ReviewAdmin(admin.ModelAdmin):
     list_display = ['name', 'description']
     
-admin.site.register(ReviewModel, ReviewModelAdmin)
+admin.site.register(Review, ReviewAdmin)
