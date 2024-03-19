@@ -1,0 +1,31 @@
+<ion-content class="ion-padding" scrollY="false">
+
+  <ion-title class="ion-text-center">
+    HISTORY
+  </ion-title>
+
+  <ion-card class="custom-card">
+    <ion-card-content class="card-content">
+
+      <ion-list class="ion-list">
+        <ion-item class="header-row">
+          <ion-label class="header-label ion-text-center">Name</ion-label>
+          <ion-label class="header-label ion-text-center">Data</ion-label>
+          <ion-label class="header-label ion-text-center">Description</ion-label>
+        </ion-item>
+
+        <ion-item *ngFor="let item of historyData" class="history-item">
+          <ion-label class="ion-text-center">{{ item.reviewName }}</ion-label>
+          <ion-label class="ion-text-center">{{ item.time }}</ion-label>
+          <ion-label class="ion-text-center">prova</ion-label>
+        </ion-item>
+      </ion-list>
+
+      <ion-button expand="block" color="primary" (click)="navigateToHome()">
+        Back to Home
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+

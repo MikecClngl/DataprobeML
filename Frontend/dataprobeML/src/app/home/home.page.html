@@ -37,7 +37,7 @@
       </ion-button>
 
       <!--Button to see the analysis history-->
-      <ion-button *ngIf="!fileIsInsert" fill="outline" shape="round" class="view-history" >
+      <ion-button *ngIf="!fileIsInsert" fill="outline" shape="round" class="view-history" (click)="navigateToHistory()">
         View history
       </ion-button>
 

@@ -3,6 +3,7 @@ import { AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,8 @@ export class HomePage {
 
   constructor(
       private alertController: AlertController,
-      private http: HttpClient
+      private http: HttpClient,
+      private router: Router
       ){}
 
   selectedFile: File | undefined;
@@ -122,5 +124,9 @@ export class HomePage {
         )
         .subscribe();
     })))
+    }
+
+    navigateToHistory(){
+      this.router.navigate(['/history']);
     }
 }
