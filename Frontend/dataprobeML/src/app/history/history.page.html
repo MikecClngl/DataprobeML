@@ -16,6 +16,7 @@
 
         <ion-item *ngFor="let review of reviews" class="history-item">
           <ion-label class="ion-text-center">{{ review.name }}</ion-label>
+          <ion-label class="ion-text-center">{{ review.date | date:'dd/MM/yyyy' }}</ion-label>
           <ion-label class="ion-text-center">{{ review.description }}</ion-label>
         </ion-item>
       </ion-list>

@@ -3,6 +3,6 @@ from fileAnalyzer.models import Review
 
 # Register your models here.
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ['name', 'description']
+    list_display = ['name', 'description', 'date']
     
 admin.site.register(Review, ReviewAdmin)
