@@ -6,5 +6,6 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = ['name', 
                   'description',
-                  'date'
+                  'date',
+                  'review'
                   ]
