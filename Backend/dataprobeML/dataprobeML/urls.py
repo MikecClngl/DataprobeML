@@ -16,12 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from fileAnalyzer import views
-from fileAnalyzer.views import ReviewView
+from django.urls import include, re_path
 
 urlpatterns = [
-    path('', admin.site.urls),
-    #path('review/', views.create_review, name='review'),
-    #path('get_csrf_token/', views.get_csrf_token, name="get_csrf_token"),
-    #path('reviews', ReviewView.as_view(), name="Reviews")
+    path('admin/', admin.site.urls),
+    re_path(r'^', include('fileAnalyzer.urls'))
 ]
