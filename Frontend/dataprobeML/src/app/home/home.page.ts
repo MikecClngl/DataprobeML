@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, timestamp } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -90,41 +90,36 @@ export class HomePage {
     };
   }
 
-  getCSRFToken(){
-    return this.http.get<any>('http://127.0.0.1:8000/get_csrf_token/');
-  }
-
   //Send file and name of review to backend
   uploadReviewFile(reviewLabel: string) {
-
     if (!this.selectedFile) {
-      console.error('No file selected');
-      return;
-      }
+        console.error('No file selected');
+        return;
+    }
 
     const formData = new FormData();
-    formData.append('file', this.selectedFile);
-    formData.append('reviewName', reviewLabel);
+    formData.append('review', this.selectedFile);
+    formData.append('name', reviewLabel);
+    formData.append('description', reviewLabel);
+    formData.append('date', new Date().toISOString());
 
-    this.getCSRFToken().pipe(
-      tap((response => {
-        const csrfToken = response.csrfToken;
-        console.log(csrfToken)
-        formData.append('csrfmiddlewaretoken', csrfToken);
-
-        this.http.post<any>('http://127.0.0.1:8000/review/', formData)
-        .pipe(
-          tap((response) => {
-            console.log('Risposta dal server:', response);
-          }),
-          catchError((error) => {
-            console.error('Errore nella richiesta:', error);
-           return of(null);
-          })
-        )
-        .subscribe();
-    })))
-    }
+    fetch('http://127.0.0.1:8000/reviews/', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to upload file');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('File uploaded successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error uploading file:', error);
+    });
+  }
 
     navigateToHistory(){
       this.router.navigate(['/history']);

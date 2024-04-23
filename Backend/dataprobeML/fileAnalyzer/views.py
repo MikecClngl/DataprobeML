@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
+import json
 
 from .models import Review
 from .serializer import ReviewSerializer
@@ -13,10 +14,12 @@ def reviewApi(request):
         reviews_serializer = ReviewSerializer(reviews, many=True)
         return JsonResponse(reviews_serializer.data, safe=False)
     elif request.method == 'POST':
-        print(request.body)
-        review_data = JSONParser().parse(request)
-        reviews_serializer = ReviewSerializer(data=review_data)
-        if reviews_serializer.is_valid():
-            reviews_serializer.save()
-            return JsonResponse("Added successfully!", safe=False)
-        return JsonResponse("Error", safe=False)
+        if 'review' in request.FILES:
+            file = request.FILES['review']
+            name = request.POST.get('name')
+            description = request.POST.get('description')
+            obj = Review(review=file, name=name, description=description)
+            obj.save()
+            return JsonResponse("File uploaded successfully!", safe=False)
+        else:
+            return JsonResponse("No JSON data or file found in request", status=400, safe=False)
