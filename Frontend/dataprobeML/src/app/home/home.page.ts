@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
-import { catchError, tap, timestamp } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -64,6 +62,7 @@ export class HomePage {
           handler: (input) => {
             this.reviewLabel = input[0];
             this.uploadReviewFile(input[0]);
+            window.location.reload();
         },
         },
         {
@@ -74,20 +73,6 @@ export class HomePage {
     });
 
   await alert.present();
-  }
-
-  //Reset the values
-  resetValues() {
-    this.fileIsInsert = false;
-    this.selectedFile = undefined;
-    this.fileName = undefined;
-    this.fileType = undefined;
-    this.reviewLabel = undefined;
-    this.checkboxValues = {
-      bleu: false,
-      codebleu: false,
-      crystalbleu: false
-    };
   }
 
   //Send file and name of review to backend
