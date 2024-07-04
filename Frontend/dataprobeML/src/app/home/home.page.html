@@ -5,15 +5,15 @@
   </ion-title>
 
   <h4 class="subtitle">
-    Insert your code for the review
+    Insert your file for the review
   </h4>
 
   <ion-card class="custom-card">
     <ion-card-content class="card-content">
 
       <!--Button for upload a file-->
-      <ion-button  shape="round" class="uploadFile" *ngIf="!fileIsInsert">
-        Upload file
+      <ion-button  shape="round" class="newReview" *ngIf="!fileIsInsert">
+        New review
         <input type="file" class="inputFile" (change)="handleFileInput($event)" accept=".txt, .csv">
       </ion-button>
 
