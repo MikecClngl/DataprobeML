@@ -10,6 +10,7 @@
       <ion-item class="header-row">
         <ion-label class="header-label ion-text-center">Name</ion-label>
         <ion-label class="header-label ion-text-center">Date</ion-label>
+        <ion-label class="header-label ion-text-center">Review type</ion-label>
         <ion-label class="header-label ion-text-center">File</ion-label>
       </ion-item>
 
@@ -18,7 +19,8 @@
           <ion-item *ngFor="let review of reviews" class="history-item">
             <ion-label class="ion-text-center">{{ review.name }}</ion-label>
             <ion-label class="ion-text-center">{{ review.date | date:'dd/MM/yyyy' }}</ion-label>
-            <ion-label class="ion-text-center">{{ review.review.replace('/files/reviews/', '') }}</ion-label>
+            <ion-label class="ion-text-center">{{ review.reviewModes }}</ion-label>
+            <ion-label class="ion-text-center">{{ review.file }}</ion-label>
           </ion-item>
         </ion-list>
       </ion-content>

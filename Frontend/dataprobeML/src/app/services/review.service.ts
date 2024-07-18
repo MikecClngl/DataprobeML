@@ -13,7 +13,7 @@ export class ReviewService {
     private http: HttpClient
   ) {}
 
-
+  //post api to send review to backend
   uploadReview(review: Review): Observable<any> {
     const formData = new FormData();
     formData.append('review', review.file);
@@ -27,4 +27,9 @@ export class ReviewService {
 
     return this.http.post<any>(this.apiUrl, formData, { headers });
   }
+  //get api to get the saved reviews
+  loadReview(): Observable<Review[]> {
+    return this.http.get<Review[]>(this.apiUrl);
+  }
+
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Review } from '../models/review';
+import { ReviewService } from '../services/review.service';
 
 @Component({
   selector: 'app-history',
@@ -7,24 +9,27 @@ import { Router } from '@angular/router';
   styleUrls: ['./history.page.scss'],
 })
 export class HistoryPage implements OnInit {
-  reviews: any[] = [];
+  reviews: Review[] = [];
 
   constructor(
     private router: Router,
+    private reviewService: ReviewService,
   ) {}
 
   async ngOnInit() {
-    try {
-      const response = await fetch("http://127.0.0.1:8000/reviews/");
-      if (!response.ok) {
-        throw new Error('Failed to fetch reviews');
+    this.loadReviews();
+  }
+
+  loadReviews() {
+    this.reviewService.loadReview().subscribe(
+      (data: Review[]) => {
+        this.reviews = data;
+        console.log('Recensioni caricate con successo:', this.reviews);
+      },
+      error => {
+        console.error('Errore durante il caricamento delle recensioni:', error);
       }
-      const data = await response.json();
-      this.reviews = data;
-      console.log(this.reviews);
-    } catch (error) {
-      console.error('Error fetching reviews:', error);
-    }
+    );
   }
 
   navigateToHome() {
