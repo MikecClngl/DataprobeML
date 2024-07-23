@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Review } from '../models/review';
+import { ReviewService } from '../services/review.service';
 
 @Component({
   selector: 'app-home',
@@ -10,23 +13,31 @@ import { HttpClient } from '@angular/common/http';
 export class HomePage {
 
   constructor(
-      private alertController: AlertController){}
+      private alertController: AlertController,
+      private http: HttpClient,
+      private router: Router,
+      private reviewService : ReviewService
+      ){}
 
+  selectedFile: File | undefined;
   fileIsInsert: boolean = false;
   fileName: string | undefined;
   fileType: string | undefined;
-  reviewLabel: string | undefined;
-  checkboxValues = {
-    bleu: false,
-    codebleu: false,
-    crystalbleu: false
-  };
+  reviewLabel: string = "defaultReviewName";
+  reviewModes: string[] = [];
+
+  availableReviewModes = [
+    { value: 'BLEU', label: 'BLEU' },
+    { value: 'CODEBLEU', label: 'CODEBLEU' },
+    { value: 'CRYSTALBLEU', label: 'CRYSTALBLEU' }
+  ];
 
   //Manage file uploading
   handleFileInput(event: any){
     const file = event.target.files[0];
 
     if (file) {
+      this.selectedFile = file;
       this.fileIsInsert = true;
       this.fileName = file.name;
       this.fileType = file.type;
@@ -34,9 +45,9 @@ export class HomePage {
     }
   }
 
-  //Function to see if almost one checkbox is selected for activate button "submit"
-  checkboxSelected(): boolean {
-    return this.checkboxValues.bleu || this.checkboxValues.codebleu || this.checkboxValues.crystalbleu;
+  //Function to see if almost one reviewMode is selected for activate button "submit"
+  reviewModeSelected(): boolean {
+    return this.reviewModes.length > 0;
   }
 
   //Alert for enter the name of review
@@ -55,7 +66,8 @@ export class HomePage {
           cssClass: 'alert-button-blue',
           handler: (input) => {
             this.reviewLabel = input[0];
-            console.log(this.reviewLabel);
+            this.uploadReview(input[0]);
+            window.location.reload();
         },
         },
         {
@@ -64,7 +76,27 @@ export class HomePage {
         },
       ],
     });
-
   await alert.present();
   }
+
+  //send file to backend with reviewService
+  uploadReview(reviewLabel: string){
+    if (!this.selectedFile){
+      console.error('No file selected');
+      return;
+    }
+    const review = new Review(this.selectedFile, reviewLabel, reviewLabel, new Date(), this.reviewModes);
+    this.reviewService.uploadReview(review).subscribe(response =>{
+      console.log('Review caricata con successo:', response);
+      this.router.navigate(['/results']);
+    }, error => {
+      console.error('Errore durante il caricamento della review:', error);
+    }
+  );
+    console.log(review);
+  }
+
+    navigateToHistory(){
+      this.router.navigate(['/history']);
+    }
 }

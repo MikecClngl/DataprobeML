@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: ./Frontend/dataprobeML
+      dockerfile: Dockerfile
+    ports:
+      - "8100:80"
+
+  backend:
+    build:
+      context: ./Backend/dataprobeML
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Backend:/app

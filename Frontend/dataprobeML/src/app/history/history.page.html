@@ -1,0 +1,36 @@
+<ion-content class="ion-padding" scrollY="false">
+
+  <ion-title class="ion-text-center">
+    HISTORY
+  </ion-title>
+
+  <ion-card class="custom-card">
+    <ion-card-content class="card-content">
+
+      <ion-item class="header-row">
+        <ion-label class="header-label ion-text-center">Name</ion-label>
+        <ion-label class="header-label ion-text-center">Date</ion-label>
+        <ion-label class="header-label ion-text-center">Review type</ion-label>
+        <ion-label class="header-label ion-text-center">File</ion-label>
+      </ion-item>
+
+      <ion-content scroll-y="true" style="height: 400px;">
+        <ion-list class="ion-list">
+          <ion-item *ngFor="let review of reviews" class="history-item">
+            <ion-label class="ion-text-center">{{ review.name }}</ion-label>
+            <ion-label class="ion-text-center">{{ review.date | date:'dd/MM/yyyy' }}</ion-label>
+            <ion-label class="ion-text-center">{{ review.reviewModes }}</ion-label>
+            <ion-label class="ion-text-center">
+              <a [href]="review.file" download="{{ review.name }}">Download</a>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+
+      <ion-button expand="block" color="primary" (click)="navigateToHome()">
+        Back to Home
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+

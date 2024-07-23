@@ -1,0 +1,34 @@
+ion-content {
+  --background: linear-gradient(to bottom, #050320, #2d507e);
+}
+
+.ion-padding {
+  background-color: transparent !important;
+}
+
+.custom-card {
+  border-radius: 15px;
+  background-color: #3f66a17d;
+  height: 45em;
+}
+
+.card-content {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top:5vh;
+}
+
+.header-row {
+  font-weight: bold;
+  --background: rgba(107, 107, 186, 0.297);
+}
+
+.header-label{
+  padding-right: 4em;
+  padding-left: 1em;
+}
+
+.ion-list{
+  background-color: transparent !important;
+}
