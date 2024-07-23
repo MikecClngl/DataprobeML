@@ -66,9 +66,8 @@ export class HomePage {
           cssClass: 'alert-button-blue',
           handler: (input) => {
             this.reviewLabel = input[0];
-            //this.uploadReviewFile(input[0]);
             this.uploadReview(input[0]);
-            //window.location.reload();
+            window.location.reload();
         },
         },
         {
@@ -89,6 +88,7 @@ export class HomePage {
     const review = new Review(this.selectedFile, reviewLabel, reviewLabel, new Date(), this.reviewModes);
     this.reviewService.uploadReview(review).subscribe(response =>{
       console.log('Review caricata con successo:', response);
+      this.router.navigate(['/results']);
     }, error => {
       console.error('Errore durante il caricamento della review:', error);
     }

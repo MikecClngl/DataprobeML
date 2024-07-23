@@ -15,9 +15,12 @@ from .serializer import ReviewSerializer
 def reviewApi(request):
     if request.method == 'GET':
         reviews = Review.objects.all()
-        reviews_serializer = ReviewSerializer(reviews, many=True)
-        return JsonResponse(reviews_serializer.data, safe=False)
-    
+        reviews_data = []
+        for review in reviews:
+            review_data = ReviewSerializer(review).data
+            review_data['file'] = request.build_absolute_uri(review.review.url)
+            reviews_data.append(review_data)
+        return JsonResponse(reviews_data, safe=False)
     elif request.method == 'POST':
         data = request.data
 
@@ -41,7 +44,8 @@ def reviewApi(request):
         review_serializer = ReviewSerializer(data=review_data)
         
         if review_serializer.is_valid():
-            review_serializer.save()
-            return JsonResponse({"message": "File uploaded successfully!"}, safe=False)
+            review_instance = review_serializer.save()
+            file_url = request.build_absolute_uri(review_instance.review.url)
+            return JsonResponse({"message": "File uploaded successfully!", "file_url": file_url}, safe=False)  
         else:
             return JsonResponse(review_serializer.errors, status=400, safe=False)
