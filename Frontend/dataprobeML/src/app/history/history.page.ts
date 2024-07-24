@@ -24,7 +24,7 @@ export class HistoryPage implements OnInit {
     this.reviewService.loadReview().subscribe(
       (data: Review[]) => {
         this.reviews = data;
-        console.log('Recensioni caricate con successo:', this.reviews);
+        console.log('Revisioni caricate con successo:', this.reviews);
       },
       error => {
         console.error('Errore durante il caricamento delle recensioni:', error);
