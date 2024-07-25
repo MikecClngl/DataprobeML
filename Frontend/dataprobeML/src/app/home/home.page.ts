@@ -51,7 +51,7 @@ export class HomePage {
   }
 
   //Alert for enter the name of review
-  async presentAlert() {
+  async presentReviewNameAlert() {
     const alert = await this.alertController.create({
       header: 'Insert review name:',
       inputs: [
@@ -67,7 +67,26 @@ export class HomePage {
           handler: (input) => {
             this.reviewLabel = input[0];
             this.uploadReview(input[0]);
-            window.location.reload();
+        },
+        },
+        {
+          text: 'Cancel',
+          cssClass: 'alert-button-red',
+        },
+      ],
+    });
+  await alert.present();
+  }
+
+  async presentConfirmationUploadAlert() {
+    const alert = await this.alertController.create({
+      header: 'Review uploaded succesfully!',
+      buttons: [
+        {
+          text: 'Results',
+          cssClass: 'alert-button-blue',
+          handler: () => {
+            this.router.navigate(['/results'])
         },
         },
         {
@@ -88,7 +107,7 @@ export class HomePage {
     const review = new Review(this.selectedFile, reviewLabel, reviewLabel, new Date(), this.reviewModes);
     this.reviewService.uploadReview(review).subscribe(response =>{
       console.log('Review caricata con successo:', response);
-      this.router.navigate(['/results']);
+      this.presentConfirmationUploadAlert();
     }, error => {
       console.error('Errore durante il caricamento della review:', error);
     }
@@ -96,7 +115,7 @@ export class HomePage {
     console.log(review);
   }
 
-    navigateToHistory(){
+  navigateToHistory(){
       this.router.navigate(['/history']);
-    }
+  }
 }

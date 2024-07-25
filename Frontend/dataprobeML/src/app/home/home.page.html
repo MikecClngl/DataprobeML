@@ -32,7 +32,7 @@
       </ion-list>
 
       <!--Button to send the file and the type of analysis to backend-->
-      <ion-button class="submit" (click)="presentAlert()" *ngIf="fileIsInsert" [disabled] = "!reviewModeSelected()" shape="round">
+      <ion-button class="submit" (click)="presentReviewNameAlert()" *ngIf="fileIsInsert" [disabled] = "!reviewModeSelected()" shape="round">
         Submit
       </ion-button>
 

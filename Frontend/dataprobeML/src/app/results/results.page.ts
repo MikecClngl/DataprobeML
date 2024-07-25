@@ -17,6 +17,6 @@ export class ResultsPage implements OnInit {
 
   navigateToHome(){
     this.router.navigate(['/home'])
+    window.location.reload
   }
-
 }
