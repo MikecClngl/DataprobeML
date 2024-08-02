@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Review } from '../models/review';
 import { ReviewService } from '../services/review.service';
+import { ResultsService } from '../services/results.service';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,8 @@ export class HomePage {
       private alertController: AlertController,
       private http: HttpClient,
       private router: Router,
-      private reviewService : ReviewService
+      private reviewService : ReviewService,
+      private resultsService : ResultsService
       ){}
 
   selectedFile: File | undefined;
@@ -78,6 +80,7 @@ export class HomePage {
   await alert.present();
   }
 
+  //send result to results page
   async presentConfirmationUploadAlert() {
     const alert = await this.alertController.create({
       header: 'Review uploaded succesfully!',
@@ -86,7 +89,7 @@ export class HomePage {
           text: 'Results',
           cssClass: 'alert-button-blue',
           handler: () => {
-            this.router.navigate(['/results'])
+            this.router.navigate(['/results']);
         },
         },
         {
@@ -108,6 +111,7 @@ export class HomePage {
     this.reviewService.uploadReview(review).subscribe(response =>{
       console.log('Review caricata con successo:', response);
       this.presentConfirmationUploadAlert();
+      this.resultsService.setResults(response);
     }, error => {
       console.error('Errore durante il caricamento della review:', error);
     }

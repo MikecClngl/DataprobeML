@@ -1,16 +1,19 @@
 <ion-content class="ion-padding" scrollY="false">
-
   <ion-title class="ion-text-center">
     RESULTS
   </ion-title>
 
   <ion-card class="custom-card">
     <ion-card-content class="card-content">
-
-
-
       <ion-content scroll-y="true" style="height: 400px;">
-
+        <div *ngIf="results">
+          <h2>BLEU Score: {{ results.bleuScores }}</h2>
+          <h2>CrystalBLEU Score: {{ results.crystalBleuScores }}</h2>
+          <h2>CodeBLEU Score: {{ results.codeBleuScores }}</h2>
+        </div>
+        <div *ngIf="!results">
+          <p>No results available</p>
+        </div>
       </ion-content>
 
       <ion-button expand="block" color="primary" (click)="navigateToHome()">
