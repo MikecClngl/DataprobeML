@@ -11,6 +11,9 @@
         <ion-label class="header-label ion-text-center">Name</ion-label>
         <ion-label class="header-label ion-text-center">Date</ion-label>
         <ion-label class="header-label ion-text-center">Review type</ion-label>
+        <ion-label class="header-label ion-text-center">BLEU</ion-label>
+        <ion-label class="header-label ion-text-center">CrystalBLEU</ion-label>
+        <ion-label class="header-label ion-text-center">CodeBLEU</ion-label>
         <ion-label class="header-label ion-text-center">File</ion-label>
       </ion-item>
 
@@ -20,6 +23,9 @@
             <ion-label class="ion-text-center">{{ review.name }}</ion-label>
             <ion-label class="ion-text-center">{{ review.date | date:'dd/MM/yyyy' }}</ion-label>
             <ion-label class="ion-text-center">{{ review.reviewModes }}</ion-label>
+            <ion-label class="ion-text-center">{{ review.bleuScore }}</ion-label>
+            <ion-label class="ion-text-center">{{ review.crystalBleuScore }}</ion-label>
+            <ion-label class="ion-text-center">{{ review.codeBleuScore }}</ion-label>
             <ion-label class="ion-text-center">
               <a [href]="review.file" download="{{ review.name }}">Download</a>
             </ion-label>

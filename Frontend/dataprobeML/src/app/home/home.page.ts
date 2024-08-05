@@ -27,6 +27,9 @@ export class HomePage {
   fileType: string | undefined;
   reviewLabel: string = "defaultReviewName";
   reviewModes: string[] = [];
+  bleuScore: number = -1;
+  crystalBleuScore: number = -1;
+  codeBleuScore: number = -1;
 
   availableReviewModes = [
     { value: 'BLEU', label: 'BLEU' },
@@ -107,7 +110,7 @@ export class HomePage {
       console.error('No file selected');
       return;
     }
-    const review = new Review(this.selectedFile, reviewLabel, reviewLabel, new Date(), this.reviewModes);
+    const review = new Review(this.selectedFile, reviewLabel, reviewLabel, new Date(), this.reviewModes, this.bleuScore, this.crystalBleuScore, this.codeBleuScore);
     this.reviewService.uploadReview(review).subscribe(response =>{
       console.log('Review caricata con successo:', response);
       this.presentConfirmationUploadAlert();
