@@ -53,25 +53,26 @@ def reviewApi(request):
                 for chunk in file.chunks():
                     destination.write(chunk)
 
-            bleuScores = -1
-            crystalBleuScores = -1
-            codeBleuScores = -1
-
             if 'BLEU' in review_data['reviewModes']:
                 bleuScores = calculate_bleu_from_csv(file_path)
+                review_instance.bleuScore = bleuScores
 
             if 'CRYSTALBLEU' in review_data['reviewModes']:
                 crystalBleuScores = calculate_crystal_bleu(file_path)
+                review_instance.crystalBleuScore = crystalBleuScores
             
             if 'CODEBLEU' in review_data['reviewModes']:
                 codeBleuScores = calculate_code_bleu(file_path)
+                review_instance.codeBleuScore = codeBleuScores
+            
+            review_instance.save()
 
             file_url = request.build_absolute_uri(review_instance.review.url)
             return JsonResponse({"message": "File uploaded successfully!", 
                                  "file_url": file_url,
-                                 "bleuScores": bleuScores,
-                                 "crystalBleuScores": crystalBleuScores,
-                                 "codeBleuScores": codeBleuScores
+                                 "bleuScores": review_instance.bleuScore,
+                                 "crystalBleuScores": review_instance.crystalBleuScore,
+                                 "codeBleuScores": review_instance.codeBleuScore
                                  }, safe=False)  
         else:
             return JsonResponse(review_serializer.errors, status=400, safe=False)
