@@ -5,11 +5,22 @@
 
   <ion-card class="custom-card">
     <ion-card-content class="card-content">
-      <ion-content scroll-y="true" style="height: 400px;">
+      <ion-content scroll-y="true" style="height: 35em;">
         <div *ngIf="results">
-          <h2>BLEU Score: {{ results.bleuScores }}</h2>
-          <h2>CrystalBLEU Score: {{ results.crystalBleuScores }}</h2>
-          <h2>CodeBLEU Score: {{ results.codeBleuScores }}</h2>
+          <div class="score-div" *ngIf="results.bleuScores !== -1">
+            <h2>BLEU Score: {{ results.bleuScores }}</h2>
+            <ion-progress-bar [value]="results.bleuScores / 100"></ion-progress-bar>
+          </div>
+
+          <div class="score-div" *ngIf="results.crystalBleuScores !== -1">
+            <h2>CrystalBLEU Score: {{ results.crystalBleuScores }}</h2>
+            <ion-progress-bar [value]="results.crystalBleuScores / 100"></ion-progress-bar>
+          </div>
+
+          <div class="score-div" *ngIf="results.codeBleuScores !== -1">
+            <h2>CodeBLEU Score: {{ results.codeBleuScores }}</h2>
+            <ion-progress-bar [value]="results.codeBleuScores / 100"></ion-progress-bar>
+          </div>
         </div>
         <div *ngIf="!results">
           <p>No results available</p>

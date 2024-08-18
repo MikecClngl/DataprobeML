@@ -17,7 +17,12 @@ export class ResultsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.results = this.resultsService.getResults();
+    //this.results = this.resultsService.getResults();
+    this.results = {
+      bleuScores: 10,          // Example BLEU Score
+      crystalBleuScores: 50,   // Example CrystalBLEU Score
+      codeBleuScores: 90       // Example CodeBLEU Score
+    };
   }
 
   navigateToHome(){
