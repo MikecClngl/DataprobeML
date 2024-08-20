@@ -1,0 +1,11 @@
+reference,candidate
+"def add(a, b): return a + b","def add(x, y): return x + y"
+"def subtract(a, b): return a - b","def subtract(x, y): return x - y"
+"def multiply(a, b): return a * b","def multiply(m, n): return m * n"
+"def divide(a, b): return a / b","def div(a, b): return a / b"
+"def power(a, b): return a ** b","def power(x, y): return x ** y"
+"def mod(a, b): return a % b","def modulus(a, b): return a % b"
+"def max(a, b): return a if a > b else b","def maximum(a, b): return a if a > b else b"
+"def min(a, b): return a if a < b else b","def minimum(a, b): return a if a < b else b"
+"def gcd(a, b): while b: a, b = b, a % b; return a","def gcd(m, n): while n: m, n = n, m % n; return m"
+"def lcm(a, b): return abs(a*b) // gcd(a, b)","def lcm(x, y): return abs(x*y) // gcd(x, y)"

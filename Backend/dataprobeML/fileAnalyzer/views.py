@@ -58,7 +58,7 @@ def reviewApi(request):
                 review_instance.bleuScore = bleuScores
 
             if 'CRYSTALBLEU' in review_data['reviewModes']:
-                crystalBleuScores = calculate_crystal_bleu(file_path)
+                crystalBleuScores = calculate_crystal_bleu_from_csv(file_path)
                 review_instance.crystalBleuScore = crystalBleuScores
             
             if 'CODEBLEU' in review_data['reviewModes']:
