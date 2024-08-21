@@ -16,7 +16,7 @@ ion-content {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top:5vh;
+  margin-top:2vh;
 }
 
 .history-item {
@@ -24,11 +24,6 @@ ion-content {
   background-color: transparent !important;
   --background: transparent;
 
-}
-
-.history-item ion-label:first-child {
-  //margin-right: 20em;
-  background-color: transparent !important;
 }
 
 .header-row {
@@ -43,6 +38,26 @@ ion-content {
 
 .ion-list{
   background-color: transparent !important;
+}
+
+.ion-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.ion-list ion-item {
+  display: flex;
+  align-items: center;
+}
+
+.history-item ion-label,
+.history-item ion-button,
+.history-item a {
+  text-align: center;
+  background-color: transparent !important;
+  width: 50%;
 }
 
 

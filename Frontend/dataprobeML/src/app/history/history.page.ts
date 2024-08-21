@@ -32,6 +32,10 @@ export class HistoryPage implements OnInit {
     );
   }
 
+  viewResults(review: any) {
+    this.router.navigate(['/results'], { state: { review } });
+  }
+
   navigateToHome() {
     this.router.navigate(['/home']);
   }

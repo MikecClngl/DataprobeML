@@ -17,11 +17,17 @@ export class ResultsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.results = this.resultsService.getResults();
+    if (history.state.review) {
+      this.results = history.state.review;
+      console.log(this.results)
+    } else {
+      this.results = this.resultsService.getResults();
+    }
   }
 
   navigateToHome(){
-    this.router.navigate(['/home'])
-    window.location.reload
+    this.router.navigate(['/home']).then(() => {
+      window.location.reload();
+    });
   }
 }

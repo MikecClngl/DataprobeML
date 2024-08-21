@@ -70,9 +70,11 @@ def reviewApi(request):
             file_url = request.build_absolute_uri(review_instance.review.url)
             return JsonResponse({"message": "File uploaded successfully!", 
                                  "file_url": file_url,
-                                 "bleuScores": review_instance.bleuScore,
-                                 "crystalBleuScores": review_instance.crystalBleuScore,
-                                 "codeBleuScores": review_instance.codeBleuScore
+                                 "name": review_instance.name,
+                                 "date": review_instance.date,
+                                 "bleuScore": review_instance.bleuScore,
+                                 "crystalBleuScore": review_instance.crystalBleuScore,
+                                 "codeBleuScore": review_instance.codeBleuScore
                                  }, safe=False)  
         else:
             return JsonResponse(review_serializer.errors, status=400, safe=False)

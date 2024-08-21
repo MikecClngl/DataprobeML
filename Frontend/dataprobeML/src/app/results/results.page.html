@@ -1,25 +1,27 @@
 <ion-content class="ion-padding" scrollY="false">
+
   <ion-title class="ion-text-center">
-    RESULTS
+    RESULTS FOR {{ results.name }}
   </ion-title>
 
   <ion-card class="custom-card">
     <ion-card-content class="card-content">
       <ion-content scroll-y="true" style="height: 35em;">
         <div *ngIf="results">
-          <div class="score-div" *ngIf="results.bleuScores !== -1">
-            <h2>BLEU Score: {{ results.bleuScores }}</h2>
-            <ion-progress-bar [value]="results.bleuScores / 100"></ion-progress-bar>
+          <p></p>
+          <div class="score-div" *ngIf="results.bleuScore !== -1">
+            <h2>BLEU Score: {{ results.bleuScore }}</h2>
+            <ion-progress-bar [value]="results.bleuScore / 100"></ion-progress-bar>
           </div>
 
-          <div class="score-div" *ngIf="results.crystalBleuScores !== -1">
-            <h2>CrystalBLEU Score: {{ results.crystalBleuScores }}</h2>
-            <ion-progress-bar [value]="results.crystalBleuScores / 100"></ion-progress-bar>
+          <div class="score-div" *ngIf="results.crystalBleuScore !== -1">
+            <h2>CrystalBLEU Score: {{ results.crystalBleuScore }}</h2>
+            <ion-progress-bar [value]="results.crystalBleuScore / 100"></ion-progress-bar>
           </div>
 
-          <div class="score-div" *ngIf="results.codeBleuScores !== -1">
-            <h2>CodeBLEU Score: {{ results.codeBleuScores }}</h2>
-            <ion-progress-bar [value]="results.codeBleuScores / 100"></ion-progress-bar>
+          <div class="score-div" *ngIf="results.codeBleuScore !== -1">
+            <h2>CodeBLEU Score: {{ results.codeBleuScore }}</h2>
+            <ion-progress-bar [value]="results.codeBleuScore / 100"></ion-progress-bar>
           </div>
         </div>
         <div *ngIf="!results">
