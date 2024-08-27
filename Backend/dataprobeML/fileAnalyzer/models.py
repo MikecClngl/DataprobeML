@@ -9,6 +9,9 @@ class Review(models.Model):
     description = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     reviewModes = models.JSONField(default=list)
+    bleuScore = models.FloatField(default=-1)
+    crystalBleuScore = models.FloatField(default=-1)
+    codeBleuScore = models.FloatField(default=-1)
 
     def __str__(self):
         return self.name

@@ -32,3 +32,24 @@ ion-content {
 .ion-list{
   background-color: transparent !important;
 }
+
+.score-div{
+  align-items: center;
+  margin-top: 2em;
+  margin-bottom: 4em;
+  text-align: center;
+  flex-direction: column;
+  display: flex;
+}
+
+ion-progress-bar {
+  margin-top: 1em;
+  margin-left: 5em;
+  margin-bottom: em;
+  width: 50em;
+  height: 2em;
+  border-radius: 1em;
+  --background: #e0e0e0;
+  --progress-background: #465276;
+  --buffer-background: rgba(255, 255, 255, 0.63); 
+}

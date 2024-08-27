@@ -27,9 +27,13 @@ export class HistoryPage implements OnInit {
         console.log('Revisioni caricate con successo:', this.reviews);
       },
       error => {
-        console.error('Errore durante il caricamento delle recensioni:', error);
+        console.error('Errore durante il caricamento delle revisioni:', error);
       }
     );
+  }
+
+  viewResults(review: any) {
+    this.router.navigate(['/results'], { state: { review } });
   }
 
   navigateToHome() {

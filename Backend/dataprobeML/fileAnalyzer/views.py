@@ -4,7 +4,9 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import JSONParser
 import json
+import os
 
+from .services import *
 from .models import Review
 from .serializer import ReviewSerializer
 
@@ -45,7 +47,34 @@ def reviewApi(request):
         
         if review_serializer.is_valid():
             review_instance = review_serializer.save()
+
+            file_path = os.path.join('files/reviews', file.name)
+            with open(file_path, 'wb+') as destination:
+                for chunk in file.chunks():
+                    destination.write(chunk)
+
+            if 'BLEU' in review_data['reviewModes']:
+                bleuScores = calculate_bleu_from_csv(file_path)
+                review_instance.bleuScore = bleuScores
+
+            if 'CRYSTALBLEU' in review_data['reviewModes']:
+                crystalBleuScores = calculate_crystal_bleu_from_csv(file_path)
+                review_instance.crystalBleuScore = crystalBleuScores
+            
+            if 'CODEBLEU' in review_data['reviewModes']:
+                codeBleuScores = calculate_code_bleu_from_csv(file_path)
+                review_instance.codeBleuScore = codeBleuScores
+            
+            review_instance.save()
+
             file_url = request.build_absolute_uri(review_instance.review.url)
-            return JsonResponse({"message": "File uploaded successfully!", "file_url": file_url}, safe=False)  
+            return JsonResponse({"message": "File uploaded successfully!", 
+                                 "file_url": file_url,
+                                 "name": review_instance.name,
+                                 "date": review_instance.date,
+                                 "bleuScore": review_instance.bleuScore,
+                                 "crystalBleuScore": review_instance.crystalBleuScore,
+                                 "codeBleuScore": review_instance.codeBleuScore
+                                 }, safe=False)  
         else:
             return JsonResponse(review_serializer.errors, status=400, safe=False)

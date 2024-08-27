@@ -1,16 +1,32 @@
 <ion-content class="ion-padding" scrollY="false">
 
   <ion-title class="ion-text-center">
-    RESULTS
+    RESULTS FOR {{ results.name }}
   </ion-title>
 
   <ion-card class="custom-card">
     <ion-card-content class="card-content">
+      <ion-content scroll-y="true" style="height: 35em;">
+        <div *ngIf="results">
+          <p></p>
+          <div class="score-div" *ngIf="results.bleuScore !== -1">
+            <h2>BLEU Score: {{ results.bleuScore }}</h2>
+            <ion-progress-bar [value]="results.bleuScore / 100"></ion-progress-bar>
+          </div>
 
+          <div class="score-div" *ngIf="results.crystalBleuScore !== -1">
+            <h2>CrystalBLEU Score: {{ results.crystalBleuScore }}</h2>
+            <ion-progress-bar [value]="results.crystalBleuScore / 100"></ion-progress-bar>
+          </div>
 
-
-      <ion-content scroll-y="true" style="height: 400px;">
-
+          <div class="score-div" *ngIf="results.codeBleuScore !== -1">
+            <h2>CodeBLEU Score: {{ results.codeBleuScore }}</h2>
+            <ion-progress-bar [value]="results.codeBleuScore / 100"></ion-progress-bar>
+          </div>
+        </div>
+        <div *ngIf="!results">
+          <p>No results available</p>
+        </div>
       </ion-content>
 
       <ion-button expand="block" color="primary" (click)="navigateToHome()">
