@@ -14,13 +14,25 @@
       <!--Button for upload a file-->
       <ion-button  shape="round" class="newReview" *ngIf="!fileIsInsert">
         New review
-        <input type="file" class="inputFile" (change)="handleFileInput($event)" accept=".txt, .csv">
+        <input type="file" class="inputFile" (change)="handleFileInput($event)" accept=".csv">
       </ion-button>
 
       <!--File name if this is insert-->
       <h1 class="fileName" *ngIf="fileIsInsert">
         <ion-icon name="document-outline"></ion-icon> {{ fileName }}
       </h1>
+
+      <div *ngIf="fileIsInsert && columnNames.length > 0">
+        <ion-label>Choose Candidate Column:</ion-label>
+        <ion-select [(ngModel)]="selectedCandidateColumn">
+          <ion-select-option *ngFor="let column of columnNames" [value]="column">{{ column }}</ion-select-option>
+        </ion-select>
+
+        <ion-label>Choose Reference Column:</ion-label>
+        <ion-select [(ngModel)]="selectedReferenceColumn">
+          <ion-select-option *ngFor="let column of columnNames" [value]="column">{{ column }}</ion-select-option>
+        </ion-select>
+      </div>
 
       <p *ngIf="fileIsInsert" style="color: white; font-size: 2vh;" >Type of analysis: </p>
 

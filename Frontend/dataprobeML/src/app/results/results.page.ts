@@ -22,6 +22,10 @@ export class ResultsPage implements OnInit {
       console.log(this.results)
     } else {
       this.results = this.resultsService.getResults();
+      if (this.results.errors && this.results.errors.length > 0) {
+        const errorMessages = this.results.errors.map((error: any) => `${error.type}: ${error.error}`).join('\n');
+        alert(`Errors:\n${errorMessages}`);
+      }
     }
   }
 
