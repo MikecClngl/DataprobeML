@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 import { ResultsService } from '../services/results.service';
 
@@ -13,7 +14,8 @@ export class ResultsPage implements OnInit {
 
   constructor(
     private router: Router,
-    private resultsService : ResultsService
+    private resultsService : ResultsService,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -23,10 +25,25 @@ export class ResultsPage implements OnInit {
     } else {
       this.results = this.resultsService.getResults();
       if (this.results.errors && this.results.errors.length > 0) {
-        const errorMessages = this.results.errors.map((error: any) => `${error.type}: ${error.error}`).join('\n');
-        alert(`Errors:\n${errorMessages}`);
+        this.presentAlert();
       }
     }
+  }
+
+  async presentAlert() {
+    const errorMessages = this.results.errors.map((error: any) => `${error.type}: ${error.error.replace(/\(<unknown>, line \d+\)/, '')}, in row: ${error.row}`).join('\n');
+    const alert = await this.alertController.create({
+      header: 'Ops! There are some errors',
+      message: errorMessages,
+      cssClass: 'custom-alert',
+      buttons: [
+        {
+          text: 'OK',
+          cssClass: 'alert-button-blue',
+        },
+      ],
+    });
+    await alert.present();
   }
 
   navigateToHome(){

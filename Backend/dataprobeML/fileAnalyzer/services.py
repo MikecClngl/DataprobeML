@@ -87,7 +87,7 @@ def calculate_code_bleu_from_csv(file_path, candidate_column, reference_column):
     reference_column = reference_column.strip()
     candidate_column = candidate_column.strip()
 
-    for _, row in df.iterrows():
+    for index, row in df.iterrows():
         reference_code = row[reference_column]
         candidate_code = row[candidate_column]
         try:
@@ -95,7 +95,9 @@ def calculate_code_bleu_from_csv(file_path, candidate_column, reference_column):
             total_codebleu_score += codebleu_score
             count += 1
         except Exception as e:
-            errors.append({"row": row.to_dict(), "error": str(e)})
+            print(f"Errore nel calcolo del punteggio CodeBLEU per la riga: {index + 2}")
+            print(f"Errore: {e}")
+            errors.append({"error": str(e), "row": index + 2 })
 
     # Calculate scores average
     if count > 0:
@@ -127,7 +129,7 @@ def calculate_crystal_bleu_from_csv(file_path, candidate_column, reference_colum
     reference_column = reference_column.strip()
     candidate_column = candidate_column.strip()
 
-    for _, row in df.iterrows():
+    for index, row in df.iterrows():
         reference_code = row[reference_column]
         candidate_code = row[candidate_column]
         try:
@@ -135,7 +137,9 @@ def calculate_crystal_bleu_from_csv(file_path, candidate_column, reference_colum
             total_crystalbleu_score += crystalbleu_score
             count += 1
         except Exception as e:
-            errors.append({"row": row.to_dict(), "error": str(e)})
+            print(f"Errore nel calcolo del punteggio CrystalBLEU per la riga: {index + 2}")
+            print(f"Errore: {e}")
+            errors.append({"error": str(e), "row": index + 2})
 
     # Calculate scores average
     if count > 0:

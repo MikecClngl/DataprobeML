@@ -71,7 +71,7 @@ def reviewApi(request):
                     crystalBleuScores = result['score']
                     review_instance.crystalBleuScore = crystalBleuScores
                     if result.get('errors'):
-                        errors.extend([{"type": "CRYSTALBLEU", "error": error["error"]} for error in result['errors']])
+                        errors.extend([{"type": "CRYSTALBLEU", "error": error["error"], "row": error["row"]} for error in result['errors']])
                 except Exception as e:
                     errors.append({"type": "CRYSTALBLEU", "error": str(e)})
             
@@ -81,7 +81,7 @@ def reviewApi(request):
                     codeBleuScores = result['score']
                     review_instance.codeBleuScore = codeBleuScores
                     if result.get('errors'):
-                        errors.extend([{"type": "CODEBLEU", "error": error["error"]} for error in result['errors']])
+                        errors.extend([{"type": "CODEBLEU", "error": error["error"], "row": error["row"]} for error in result['errors']])
                 except Exception as e:
                     errors.append({"type": "CODEBLEU", "error": str(e)})
             
