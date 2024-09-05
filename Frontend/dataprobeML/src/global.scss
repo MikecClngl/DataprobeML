@@ -67,3 +67,33 @@ button.alert-button.alert-button-red {
   border-radius: 28px;
 }
 
+.alert-message.sc-ion-alert-md, .alert-message.sc-ion-alert-ios {
+  font-size: 1rem;
+  white-space: pre-line;
+}
+
+.alert-button-group{
+  justify-content: center !important;
+  padding: 8px !important;
+  flex-wrap: wrap-reverse !important;
+}
+
+.alert-button {
+  --color: var(--ion-color-primary) !important;
+  --background: var(--ion-color-light) !important;
+}
+
+.alert-button.role-cancel {
+  --color: var(--ion-color-medium) !important;
+  --background: var(--ion-color-light) !important;
+}
+
+.alert-wrapper{
+  background-color: rgb(43, 43, 94) !important;
+  border-radius: 12px !important;
+}
+
+.alert-head{
+  background-color: rgb(61, 61, 118) !important;
+}
+

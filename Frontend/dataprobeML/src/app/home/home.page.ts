@@ -25,6 +25,10 @@ export class HomePage {
   fileIsInsert: boolean = false;
   fileName: string | undefined;
   fileType: string | undefined;
+  columnNames: string[] = [];
+  selectedCandidateColumn: string | undefined;
+  selectedReferenceColumn: string | undefined;
+
   reviewLabel: string = "defaultReviewName";
   reviewModes: string[] = [];
   bleuScore: number = -1;
@@ -46,7 +50,22 @@ export class HomePage {
       this.fileIsInsert = true;
       this.fileName = file.name;
       this.fileType = file.type;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = reader.result as string;
+        this.extractColumnNames(text);
+      };
+      reader.readAsText(file);
+
       console.log(file);
+    }
+  }
+
+  extractColumnNames(csvText: string) {
+    const lines = csvText.split('\n');
+    if (lines.length > 0) {
+      this.columnNames = lines[0].split(','); // assuming CSV is comma separated
     }
   }
 
@@ -106,11 +125,11 @@ export class HomePage {
 
   //send file to backend with reviewService
   uploadReview(reviewLabel: string){
-    if (!this.selectedFile){
-      console.error('No file selected');
+    if (!this.selectedFile || !this.selectedCandidateColumn || !this.selectedReferenceColumn){
+      console.error('File or column not selected');
       return;
     }
-    const review = new Review(this.selectedFile, reviewLabel, reviewLabel, new Date(), this.reviewModes, this.bleuScore, this.crystalBleuScore, this.codeBleuScore);
+    const review = new Review(this.selectedFile, reviewLabel, reviewLabel, new Date(), this.reviewModes, this.bleuScore, this.crystalBleuScore, this.codeBleuScore, this.selectedCandidateColumn, this.selectedReferenceColumn);
     this.reviewService.uploadReview(review).subscribe(response =>{
       console.log('Review caricata con successo:', response);
       this.presentConfirmationUploadAlert();

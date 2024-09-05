@@ -34,16 +34,21 @@ def reviewApi(request):
         description = data.get('description')
         date = data.get('date')
         reviewModes = data.get('reviewModes')
+        candidateColumn = data.get('candidateColumn')
+        referenceColumn = data.get('referenceColumn')
 
         review_data = {
             'review': file,
             'name': name,
             'description': description,
             'date': date,
-            'reviewModes': json.loads(reviewModes) if reviewModes else []
+            'reviewModes': json.loads(reviewModes) if reviewModes else [],
+            'candidateColumn': candidateColumn,
+            'referenceColumn': referenceColumn,
         }
 
         review_serializer = ReviewSerializer(data=review_data)
+        errors = []
         
         if review_serializer.is_valid():
             review_instance = review_serializer.save()
@@ -54,16 +59,31 @@ def reviewApi(request):
                     destination.write(chunk)
 
             if 'BLEU' in review_data['reviewModes']:
-                bleuScores = calculate_bleu_from_csv(file_path)
-                review_instance.bleuScore = bleuScores
+                try:
+                    bleuScores = calculate_bleu_from_csv(file_path, candidateColumn, referenceColumn)
+                    review_instance.bleuScore = bleuScores
+                except Exception as e:
+                    errors.append({"type": "BLEU", "error": str(e)})
 
             if 'CRYSTALBLEU' in review_data['reviewModes']:
-                crystalBleuScores = calculate_crystal_bleu_from_csv(file_path)
-                review_instance.crystalBleuScore = crystalBleuScores
+                try:
+                    result = calculate_crystal_bleu_from_csv(file_path, candidateColumn, referenceColumn)
+                    crystalBleuScores = result['score']
+                    review_instance.crystalBleuScore = crystalBleuScores
+                    if result.get('errors'):
+                        errors.extend([{"type": "CRYSTALBLEU", "error": error["error"], "row": error["row"]} for error in result['errors']])
+                except Exception as e:
+                    errors.append({"type": "CRYSTALBLEU", "error": str(e)})
             
             if 'CODEBLEU' in review_data['reviewModes']:
-                codeBleuScores = calculate_code_bleu_from_csv(file_path)
-                review_instance.codeBleuScore = codeBleuScores
+                try:
+                    result = calculate_code_bleu_from_csv(file_path, candidateColumn, referenceColumn)
+                    codeBleuScores = result['score']
+                    review_instance.codeBleuScore = codeBleuScores
+                    if result.get('errors'):
+                        errors.extend([{"type": "CODEBLEU", "error": error["error"], "row": error["row"]} for error in result['errors']])
+                except Exception as e:
+                    errors.append({"type": "CODEBLEU", "error": str(e)})
             
             review_instance.save()
 
@@ -74,7 +94,10 @@ def reviewApi(request):
                                  "date": review_instance.date,
                                  "bleuScore": review_instance.bleuScore,
                                  "crystalBleuScore": review_instance.crystalBleuScore,
-                                 "codeBleuScore": review_instance.codeBleuScore
+                                 "codeBleuScore": review_instance.codeBleuScore,
+                                 "candidateColumn": review_instance.candidateColumn,
+                                 "referenceColumn": review_instance.referenceColumn,
+                                 "errors": errors
                                  }, safe=False)  
         else:
             return JsonResponse(review_serializer.errors, status=400, safe=False)

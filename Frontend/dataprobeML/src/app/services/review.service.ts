@@ -21,6 +21,8 @@ export class ReviewService {
     formData.append('description', review.name);
     formData.append('date', review.date.toISOString());
     formData.append('reviewModes', JSON.stringify(review.reviewModes));
+    formData.append('candidateColumn', review.candidateColumn);
+    formData.append('referenceColumn', review.referenceColumn);
 
     const headers = new HttpHeaders();
     headers.append('Accept', 'application/json');
@@ -31,5 +33,4 @@ export class ReviewService {
   loadReview(): Observable<Review[]> {
     return this.http.get<Review[]>(this.apiUrl);
   }
-  
 }
