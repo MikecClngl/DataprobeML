@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Review } from '../models/review';
 import { ReviewService } from '../services/review.service';
 import { ResultsService } from '../services/results.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -18,8 +19,11 @@ export class HomePage {
       private http: HttpClient,
       private router: Router,
       private reviewService : ReviewService,
-      private resultsService : ResultsService
-      ){}
+      private resultsService : ResultsService,
+      private titleService : Title
+      ){
+        this.titleService.setTitle('DataprobeML');
+      }
 
   selectedFile: File | undefined;
   fileIsInsert: boolean = false;

@@ -1,25 +1,29 @@
-<ion-content class="ion-padding" scrollY="false">
+<ion-content class="ion-padding" fullscreen="true" scrollY="true">
 
-  <ion-title class="ion-text-center">
-    WELCOME
-  </ion-title>
+  <div class="background-animation"></div>
+
+  <div class="logo-container">
+    <img src="assets/icon/Logo.png" alt="Logo" class="logo">
+  </div>
 
   <h4 class="subtitle">
-    Insert your file for the review
+    Analyse your CSV file and calculate various available parameter scores
   </h4>
 
   <ion-card class="custom-card">
     <ion-card-content class="card-content">
 
+      <ion-icon name="document-text-outline" class="fileIcon"></ion-icon>
+
       <!--Button for upload a file-->
-      <ion-button  shape="round" class="newReview" *ngIf="!fileIsInsert">
-        New review
+      <ion-button fill="outline" shape="round" class="newReview" *ngIf="!fileIsInsert">
+        <p class="chooseFileText">Choose file</p>
         <input type="file" class="inputFile" (change)="handleFileInput($event)" accept=".csv">
       </ion-button>
 
       <!--File name if this is insert-->
       <h1 class="fileName" *ngIf="fileIsInsert">
-        <ion-icon name="document-outline"></ion-icon> {{ fileName }}
+        {{ fileName }}
       </h1>
 
       <div *ngIf="fileIsInsert && columnNames.length > 0">
@@ -49,8 +53,8 @@
       </ion-button>
 
       <!--Button to see the analysis history-->
-      <ion-button *ngIf="!fileIsInsert" fill="outline" shape="round" class="view-history" (click)="navigateToHistory()">
-        View history
+      <ion-button *ngIf="!fileIsInsert" shape="round" class="view-history" (click)="navigateToHistory()">
+        <p class="viewHistoryText">View History</p>
       </ion-button>
 
     </ion-card-content>
