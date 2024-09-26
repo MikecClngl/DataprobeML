@@ -18,7 +18,7 @@ ion-content {
   margin-bottom: 8%;
   color: white;
   text-align: center;
-  font-size: 2vh;
+  font-size: 1rem;
 }
 
 .custom-card {
@@ -107,25 +107,148 @@ ion-content {
   color: #ffffff;
 }
 
-/* Contenitore per l'animazione in background */
+/*background animation*/
 .background-animation {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1; /* L'animazione deve essere dietro al contenuto */
+  z-index: -1;
   background: linear-gradient(45deg, #110f37c7 25%, transparent 25%, transparent 50%, #01000e7d 75%, transparent);
   background-size: 70px 70px;
   animation: moveLines 10s linear infinite;
 }
 
-/* Animazione delle linee in movimento */
+/*animation*/
 @keyframes moveLines {
   0% {
     background-position: 0 0;
   }
   100% {
     background-position: 100px 100px;
+  }
+}
+
+/*Mobile style (max:600px)*/
+@media only screen and (max-width: 600px) {
+  .custom-card {
+    width: auto;
+    height: auto;
+    max-width: 22.5rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo-container{
+    justify-content: center;
+    max-width: 23rem;
+  }
+
+  .logo {
+    width: 20rem; /* Riduci la larghezza del logo */
+  }
+
+  .newReview, .view-history {
+    width: 80%; /* Riduci la larghezza dei bottoni */
+    height: 6vh; /* Adatta l'altezza dei bottoni */
+  }
+
+  .submit {
+    width: 10rem; /* Riduci la larghezza del bottone submit */
+  }
+
+  .ion-text-center {
+    font-size: 5vh; /* Riduci la dimensione del testo */
+  }
+
+  .subtitle {
+    white-space: normal;
+    max-width: 20rem;
+    font-size: 1.5vh; /* Riduci la dimensione del sottotitolo */
+    text-align: left;
+    word-wrap: break-word; /* Spezza le parole lunghe */
+    overflow-wrap: break-word; /* Alternativa moderna per la rottura di parole */
+  }
+
+  /* Puoi anche regolare la dimensione del file icon */
+  .fileIcon {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+/* Overlay for select Columns*/
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 99;
+  overflow: auto;
+}
+
+/*cards for select column*/
+.centered-card-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  z-index: 100;
+  overflow-x: auto;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.card-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  width: 50rem;
+  max-width: 100%;
+  min-width: 100%;
+  flex-wrap: wrap;
+  overflow-x: auto;
+}
+
+/*Single card for select columns*/
+.select-card {
+  flex: 1;
+  max-width: 300px;
+  min-width: 30vw;
+  min-height: 30vh;
+  padding: 1rem;
+  background-color: #2d507e;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.confirm-button {
+  width: 200px;
+  height: 50px;
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 25px;
+}
+
+/* cards for mobile */
+@media only screen and (max-width: 768px) {
+  .centered-card-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .select-card {
+    width: 80%;
   }
 }

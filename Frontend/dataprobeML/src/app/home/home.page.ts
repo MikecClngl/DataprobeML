@@ -32,6 +32,8 @@ export class HomePage {
   columnNames: string[] = [];
   selectedCandidateColumn: string | undefined;
   selectedReferenceColumn: string | undefined;
+  showColumnSelection = true;
+  selectedColumnsButton = false;
 
   reviewLabel: string = "defaultReviewName";
   reviewModes: string[] = [];
@@ -44,6 +46,21 @@ export class HomePage {
     { value: 'CODEBLEU', label: 'CODEBLEU' },
     { value: 'CRYSTALBLEU', label: 'CRYSTALBLEU' }
   ];
+
+  //Activate button for columns choise
+  activateSelectedColumnsButton(): boolean{
+    return this.selectedCandidateColumn != null && this.selectedReferenceColumn != null
+  }
+
+  //Confirm columns choise
+  confirmButtonSelection() {
+    if(this.selectedCandidateColumn != null && this.selectedReferenceColumn != null){
+      console.log('Reference Column:', this.selectedReferenceColumn);
+      console.log('Target Column:', this.selectedCandidateColumn);
+
+      this.showColumnSelection = false;
+    }
+  }
 
   //Manage file uploading
   handleFileInput(event: any){

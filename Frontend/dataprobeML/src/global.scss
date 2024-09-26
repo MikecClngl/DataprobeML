@@ -97,3 +97,17 @@ button.alert-button.alert-button-red {
   background-color: rgb(61, 61, 118) !important;
 }
 
+.sc-ion-alert-md-h {
+  --min-height: 40vh;
+  --min-width: 30vw;
+  font-size: 30vh;
+  min-height: auto;
+  min-height: auto;
+}
+
+label.sc-ion-alert-md{
+  --min-height: 40vh;
+  --min-width: 30vw;
+  min-height: auto;
+  min-width: auto;
+}

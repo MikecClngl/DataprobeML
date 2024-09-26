@@ -26,18 +26,6 @@
         {{ fileName }}
       </h1>
 
-      <div *ngIf="fileIsInsert && columnNames.length > 0">
-        <ion-label>Choose Candidate Column:</ion-label>
-        <ion-select [(ngModel)]="selectedCandidateColumn">
-          <ion-select-option *ngFor="let column of columnNames" [value]="column">{{ column }}</ion-select-option>
-        </ion-select>
-
-        <ion-label>Choose Reference Column:</ion-label>
-        <ion-select [(ngModel)]="selectedReferenceColumn">
-          <ion-select-option *ngFor="let column of columnNames" [value]="column">{{ column }}</ion-select-option>
-        </ion-select>
-      </div>
-
       <p *ngIf="fileIsInsert" style="color: white; font-size: 2vh;" >Type of analysis: </p>
 
       <!--List of reviewModes for decide which type of analysis to do-->
@@ -59,4 +47,41 @@
 
     </ion-card-content>
   </ion-card>
+
+  <!--overlay for select columns-->
+  <div class="overlay" *ngIf="fileIsInsert && showColumnSelection"></div>
+
+  <!-- Cards for select Columns -->
+  <div class="centered-card-container" *ngIf="fileIsInsert && columnNames.length > 0 && showColumnSelection">
+
+    <div class="card-wrapper">
+
+    <ion-card class="select-card">
+      <ion-card-header class="select-card-header">
+        <ion-card-title>Reference Column</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-select [(ngModel)]="selectedReferenceColumn">
+          <ion-select-option *ngFor="let column of columnNames" [value]="column">{{ column }}</ion-select-option>
+        </ion-select>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="select-card">
+      <ion-card-header class="select-card-header">
+        <ion-card-title>Target Column</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-select [(ngModel)]="selectedCandidateColumn">
+          <ion-select-option *ngFor="let column of columnNames" [value]="column">{{ column }}</ion-select-option>
+        </ion-select>
+      </ion-card-content>
+    </ion-card>
+    </div>
+
+    <!--Button to confirm selected columns-->
+    <ion-button class="confirm-button" (click)="confirmButtonSelection()" shape="round" [disabled]="!activateSelectedColumnsButton()">Confirm Selection</ion-button>
+
+  </div>
+
 </ion-content>
