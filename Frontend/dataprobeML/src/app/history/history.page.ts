@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Review } from '../models/review';
 import { ReviewService } from '../services/review.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-history',
@@ -14,7 +15,10 @@ export class HistoryPage implements OnInit {
   constructor(
     private router: Router,
     private reviewService: ReviewService,
-  ) {}
+    private title: Title
+  ) {
+    title.setTitle("DataprobeML - History");
+  }
 
   async ngOnInit() {
     this.loadReviews();

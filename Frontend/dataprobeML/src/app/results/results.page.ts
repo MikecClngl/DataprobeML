@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { Title } from '@angular/platform-browser';
 
 import { ResultsService } from '../services/results.service';
 
@@ -15,8 +16,11 @@ export class ResultsPage implements OnInit {
   constructor(
     private router: Router,
     private resultsService : ResultsService,
-    private alertController: AlertController
-  ) { }
+    private alertController: AlertController,
+    private title: Title
+  ) {
+    title.setTitle("DataprobeML- Results")
+  }
 
   ngOnInit() {
     if (history.state.review) {

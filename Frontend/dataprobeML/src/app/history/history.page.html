@@ -1,8 +1,10 @@
-<ion-content class="ion-padding" scrollY="false">
+<ion-content class="ion-padding" scrollY="true">
 
   <ion-title class="ion-text-center">
     HISTORY
   </ion-title>
+
+  <ion-back-button defaultHref="/home" class="custom-back-button"></ion-back-button>
 
   <ion-card class="custom-card">
     <ion-card-content class="card-content">
@@ -26,9 +28,9 @@
           </ion-col>
         </ion-row>
 
-        <ion-content scroll-y="true" style="height: 400px;">
+        <div class="div-list" style="max-height: 400px; overflow-y: auto;">
           <ion-list class="ion-list">
-            <ion-item *ngFor="let review of reviews" class="history-item">
+            <ion-row *ngFor="let review of reviews" class="history-item">
               <ion-col size="3">
                 <ion-label class="ion-text-center">{{ review.name }}</ion-label>
               </ion-col>
@@ -48,14 +50,11 @@
                   <a [href]="review.file" download="{{ review.name }}">Download</a>
                 </ion-label>
               </ion-col>
-            </ion-item>
+            </ion-row>
           </ion-list>
-        </ion-content>
+        </div>
       </ion-grid>
 
-      <ion-button expand="block" color="primary" (click)="navigateToHome()">
-        Back to Home
-      </ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>
