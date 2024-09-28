@@ -40,6 +40,19 @@ export class HistoryPage implements OnInit {
     this.router.navigate(['/results'], { state: { review } });
   }
 
+    // function to delete a review
+    deleteReview(reviewId: number) {
+      this.reviewService.deleteReview(reviewId).subscribe(
+        response => {
+          console.log('Review deleted succesfully', response);
+          window.location.reload()
+        },
+        error => {
+          console.error('Error, review not deleted', error);
+        }
+      );
+    }
+
   navigateToHome() {
     this.router.navigate(['/home']);
   }

@@ -1,4 +1,5 @@
 export class Review {
+  id?: number;
   file: File;
   name: string;
   description: string ;
@@ -20,8 +21,11 @@ export class Review {
     crystalBleuScore: number,
     codeBleuScore: number,
     candidateColumn: string,
-    referenceColumn: string,){
-      
+    referenceColumn: string,
+    id?: number,
+  ){
+
+    this.id = id;
     this.file = file;
     this.name = name;
     this.description = description;

@@ -33,4 +33,10 @@ export class ReviewService {
   loadReview(): Observable<Review[]> {
     return this.http.get<Review[]>(this.apiUrl);
   }
+
+  //delete api for delete a review
+  deleteReview(reviewId: number): Observable<any> {
+    const url = `${this.apiUrl}${reviewId}`;
+    return this.http.delete<any>(url);
+  }
 }
