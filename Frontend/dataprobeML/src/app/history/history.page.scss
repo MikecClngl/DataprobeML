@@ -9,6 +9,18 @@ ion-content {
   height: 1rem;
 }
 
+.sortButton{
+  width: 7vh;
+  height: 1vh;
+  margin-top: 0; /* Assicura che il pulsante non abbia margini superiori */
+  padding: 0; /* Rimuove padding aggiuntivo se necessario */
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+}
+
 .ion-padding {
   background-color: transparent !important;
 }
