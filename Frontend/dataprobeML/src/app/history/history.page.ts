@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Review } from '../models/review';
 import { ReviewService } from '../services/review.service';
 import { Title } from '@angular/platform-browser';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-history',
@@ -20,7 +21,8 @@ export class HistoryPage implements OnInit {
   constructor(
     private router: Router,
     private reviewService: ReviewService,
-    private title: Title
+    private title: Title,
+    private alertController: AlertController
   ) {
     title.setTitle("DataprobeML - History");
   }
@@ -73,7 +75,7 @@ export class HistoryPage implements OnInit {
     this.reviewService.deleteReview(reviewId).subscribe(
       response => {
         console.log('Review deleted succesfully', response);
-        window.location.reload()
+        this.deletedAlertConfirm();
       },
       error => {
         console.error('Error, review not deleted', error);
@@ -102,6 +104,22 @@ export class HistoryPage implements OnInit {
 
       return this.sortDirection === 'asc' ? comparison : -comparison;
     });
+  }
+
+  //deletion confirm
+  async deletedAlertConfirm() {
+    const alert = await this.alertController.create({
+      header: 'Review Deleted',
+      message: 'The review has been successfully deleted.',
+      buttons: [{
+        text: 'OK',
+        handler: () => {
+          window.location.reload()
+        }
+      }]
+    });
+
+    await alert.present();
   }
 
   navigateToHome() {
