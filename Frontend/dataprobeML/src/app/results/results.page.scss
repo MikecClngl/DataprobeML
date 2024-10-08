@@ -6,10 +6,18 @@ ion-content {
   background-color: transparent !important;
 }
 
+.custom-back-button {
+  --color: #ffffff;
+  --icon-size: 1vh;
+  width: 1rem;
+  height: 1rem;
+}
+
 .custom-card {
   border-radius: 15px;
-  background-color: #3f66a17d;
-  height: 45em;
+  background-color: #1e2e4527;
+  height: 40em;
+  max-height: 40rem;
 }
 
 .card-content {
@@ -54,10 +62,24 @@ ion-progress-bar {
   --buffer-background: rgba(255, 255, 255, 0.63);
 }
 
-.custom-back-button {
-  --color: #ffffff;
-  --icon-size: 1vh;
-  width: 1rem;
-  height: 1rem;
+.scrollable-alert .alert-message {
+  max-height: 300px;  // Set the max height to allow scrolling
+  overflow-y: auto;   // Enable vertical scrolling when content exceeds the height
 }
 
+.alert-message {
+  white-space: pre-line;  // Preserve line breaks in the message text
+}
+
+.noResultsMessage{
+  font-size: x-large;
+}
+
+.errorReview{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* Per centrare orizzontalmente */
+  align-items: center;      /* Per centrare verticalmente */
+  height: 30em;            /* Rende l'altezza del div uguale a quella della finestra */
+  text-align: center;
+}
