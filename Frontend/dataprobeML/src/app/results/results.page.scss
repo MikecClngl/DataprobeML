@@ -6,10 +6,18 @@ ion-content {
   background-color: transparent !important;
 }
 
+.custom-back-button {
+  --color: #ffffff;
+  --icon-size: 1vh;
+  width: 1rem;
+  height: 1rem;
+}
+
 .custom-card {
   border-radius: 15px;
-  background-color: #3f66a17d;
-  height: 45em;
+  background-color: #1e2e4527;
+  height: 40em;
+  max-height: 40rem;
 }
 
 .card-content {
@@ -50,6 +58,28 @@ ion-progress-bar {
   height: 2em;
   border-radius: 1em;
   --background: #e0e0e0;
-  --progress-background: #465276;
+  --progress-background: #37446b;
   --buffer-background: rgba(255, 255, 255, 0.63);
+}
+
+.scrollable-alert .alert-message {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.alert-message {
+  white-space: pre-line;
+}
+
+.noResultsMessage{
+  font-size: x-large;
+}
+
+.errorReview{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 30em;
+  text-align: center;
 }

@@ -1,38 +1,30 @@
-<ion-content class="ion-padding" scrollY="false">
+<ion-content class="ion-padding" fullscreen="true" scrollY="true">
 
-  <ion-title class="ion-text-center">
-    WELCOME
-  </ion-title>
+  <div class="background-animation"></div>
+
+  <div class="logo-container">
+    <img src="assets/icon/Logo.png" alt="Logo" class="logo">
+  </div>
 
   <h4 class="subtitle">
-    Insert your file for the review
+    Analyse your CSV file and calculate various available parameter scores
   </h4>
 
   <ion-card class="custom-card">
     <ion-card-content class="card-content">
 
+      <ion-icon name="document-text-outline" class="fileIcon"></ion-icon>
+
       <!--Button for upload a file-->
-      <ion-button  shape="round" class="newReview" *ngIf="!fileIsInsert">
-        New review
+      <ion-button fill="outline" shape="round" class="newReview" *ngIf="!fileIsInsert">
+        <p class="chooseFileText">Choose file</p>
         <input type="file" class="inputFile" (change)="handleFileInput($event)" accept=".csv">
       </ion-button>
 
       <!--File name if this is insert-->
       <h1 class="fileName" *ngIf="fileIsInsert">
-        <ion-icon name="document-outline"></ion-icon> {{ fileName }}
+        {{ fileName }}
       </h1>
-
-      <div *ngIf="fileIsInsert && columnNames.length > 0">
-        <ion-label>Choose Candidate Column:</ion-label>
-        <ion-select [(ngModel)]="selectedCandidateColumn">
-          <ion-select-option *ngFor="let column of columnNames" [value]="column">{{ column }}</ion-select-option>
-        </ion-select>
-
-        <ion-label>Choose Reference Column:</ion-label>
-        <ion-select [(ngModel)]="selectedReferenceColumn">
-          <ion-select-option *ngFor="let column of columnNames" [value]="column">{{ column }}</ion-select-option>
-        </ion-select>
-      </div>
 
       <p *ngIf="fileIsInsert" style="color: white; font-size: 2vh;" >Type of analysis: </p>
 
@@ -49,10 +41,49 @@
       </ion-button>
 
       <!--Button to see the analysis history-->
-      <ion-button *ngIf="!fileIsInsert" fill="outline" shape="round" class="view-history" (click)="navigateToHistory()">
-        View history
+      <ion-button *ngIf="!fileIsInsert" shape="round" class="view-history" (click)="navigateToHistory()">
+        <p class="viewHistoryText">View History</p>
       </ion-button>
 
     </ion-card-content>
   </ion-card>
+
+  <!--overlay for select columns-->
+  <div class="overlay" *ngIf="fileIsInsert && showColumnSelection"></div>
+
+  <!-- Cards for select Columns -->
+  <div class="centered-card-container" *ngIf="fileIsInsert && columnNames.length > 0 && showColumnSelection">
+
+    <div class="card-wrapper">
+
+      <ion-icon name="close" class="close-icon" (click)="closeColumnsChoise()"></ion-icon>
+
+    <ion-card class="select-card">
+      <ion-card-header class="select-card-header">
+        <ion-card-title>Reference Column</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-select [(ngModel)]="selectedReferenceColumn">
+          <ion-select-option *ngFor="let column of columnNames" [value]="column">{{ column }}</ion-select-option>
+        </ion-select>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="select-card">
+      <ion-card-header class="select-card-header">
+        <ion-card-title>Target Column</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-select [(ngModel)]="selectedCandidateColumn">
+          <ion-select-option *ngFor="let column of columnNames" [value]="column">{{ column }}</ion-select-option>
+        </ion-select>
+      </ion-card-content>
+    </ion-card>
+    </div>
+
+    <!--Button to confirm selected columns-->
+    <ion-button class="confirm-button" (click)="confirmButtonSelection()" shape="round" [disabled]="!activateSelectedColumnsButton()">Confirm Selection</ion-button>
+
+  </div>
+
 </ion-content>

@@ -97,3 +97,24 @@ button.alert-button.alert-button-red {
   background-color: rgb(61, 61, 118) !important;
 }
 
+.sc-ion-alert-md-h {
+  --min-height: 40vh;
+  --min-width: 30vw;
+  font-size: 2vh;
+  min-height: auto;
+  min-height: auto;
+}
+
+label.sc-ion-alert-md{
+  --min-height: 40vh;
+  --min-width: 30vw;
+  min-height: auto;
+  min-width: auto;
+}
+
+ion-searchbar {
+  --background: #24204d !important; /* Colore di sfondo della barra di ricerca */
+  --color: #cecece !important;      /* Colore del testo all'interno della barra di ricerca */
+  --placeholder-color: #a2a2a2 !important; /* Colore del testo del placeholder */
+  --icon-color: #d4cfcf !important; /* Colore dell'icona della lente d'ingrandimento */
+}

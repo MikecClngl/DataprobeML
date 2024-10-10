@@ -1,37 +1,39 @@
-<ion-content class="ion-padding" scrollY="false">
+<ion-content class="ion-padding" scrollY="true">
 
   <ion-title class="ion-text-center">
     RESULTS FOR {{ results.name }}
   </ion-title>
 
+  <ion-back-button defaultHref="/home" class="custom-back-button"></ion-back-button>
+
   <ion-card class="custom-card">
     <ion-card-content class="card-content">
       <ion-content scroll-y="true" style="height: 35em;">
         <div *ngIf="results">
-          <p></p>
-          <div class="score-div" *ngIf="results.bleuScore !== -1">
-            <h2>BLEU Score: {{ results.bleuScore }}</h2>
-            <ion-progress-bar [value]="this.results.bleuScore / 100"></ion-progress-bar>
-          </div>
 
-          <div class="score-div" *ngIf="results.crystalBleuScore !== -1">
-            <h2>CrystalBLEU Score: {{ results.crystalBleuScore }}</h2>
-            <ion-progress-bar [value]="results.crystalBleuScore / 100"></ion-progress-bar>
-          </div>
-
-          <div class="score-div" *ngIf="results.codeBleuScore !== -1">
-            <h2>CodeBLEU Score: {{ results.codeBleuScore }}</h2>
-            <ion-progress-bar [value]="results.codeBleuScore / 100"></ion-progress-bar>
+          <div *ngFor="let review of analyses">
+            <div class="score-div" *ngIf="review.type === 'BLEU' ">
+              <h2>BLEU Score: {{ review.score | number: '.0-2' }}%</h2>
+              <ion-progress-bar class="score-bar" [value]="review.score / 100"></ion-progress-bar>
+            </div>
+            <div class="score-div" *ngIf="review.type === 'CodeBLEU' ">
+              <h2>CodeBLEU Score: {{ review.score | number: '.0-2' }}%</h2>
+              <ion-progress-bar class="score-bar" [value]="review.score / 100"></ion-progress-bar>
+            </div>
+            <div class="score-div" *ngIf="review.type === 'CrystalBLEU' ">
+              <h2>CrystalBLEU Score: {{ review.score | number: '.0-2' }}%</h2>
+              <ion-progress-bar class="score-bar" [value]="review.score / 100"></ion-progress-bar>
+            </div>
           </div>
         </div>
-        <div *ngIf="!results">
-          <p>No results available</p>
+        <div class="errorReview" align="center" *ngIf="analyses.length === 0">
+          <p class="noResultsMessage">This review contains errors</p>
+          <ion-button fill="clear" size="small" color="danger" *ngIf="results.id !== undefined" (click)="deleteReview(results.id)">
+            Delete review<ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-button>
         </div>
       </ion-content>
 
-      <ion-button expand="block" color="primary" (click)="navigateToHome()">
-        Back to Home
-      </ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>

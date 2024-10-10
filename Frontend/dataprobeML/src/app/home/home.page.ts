@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Review } from '../models/review';
 import { ReviewService } from '../services/review.service';
 import { ResultsService } from '../services/results.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -18,8 +19,11 @@ export class HomePage {
       private http: HttpClient,
       private router: Router,
       private reviewService : ReviewService,
-      private resultsService : ResultsService
-      ){}
+      private resultsService : ResultsService,
+      private titleService : Title
+      ){
+        this.titleService.setTitle('DataprobeML');
+      }
 
   selectedFile: File | undefined;
   fileIsInsert: boolean = false;
@@ -28,6 +32,8 @@ export class HomePage {
   columnNames: string[] = [];
   selectedCandidateColumn: string | undefined;
   selectedReferenceColumn: string | undefined;
+  showColumnSelection = true;
+  selectedColumnsButton = false;
 
   reviewLabel: string = "defaultReviewName";
   reviewModes: string[] = [];
@@ -40,6 +46,21 @@ export class HomePage {
     { value: 'CODEBLEU', label: 'CODEBLEU' },
     { value: 'CRYSTALBLEU', label: 'CRYSTALBLEU' }
   ];
+
+  //Activate button for columns choise
+  activateSelectedColumnsButton(): boolean{
+    return this.selectedCandidateColumn != null && this.selectedReferenceColumn != null
+  }
+
+  //Confirm columns choise
+  confirmButtonSelection() {
+    if(this.selectedCandidateColumn != null && this.selectedReferenceColumn != null){
+      console.log('Reference Column:', this.selectedReferenceColumn);
+      console.log('Target Column:', this.selectedCandidateColumn);
+
+      this.showColumnSelection = false;
+    }
+  }
 
   //Manage file uploading
   handleFileInput(event: any){
@@ -62,6 +83,7 @@ export class HomePage {
     }
   }
 
+  //Extract columns names of CSV
   extractColumnNames(csvText: string) {
     const lines = csvText.split('\n');
     if (lines.length > 0) {
@@ -139,6 +161,10 @@ export class HomePage {
     }
   );
     console.log(review);
+  }
+
+  closeColumnsChoise(){
+    window.location.reload();
   }
 
   navigateToHistory(){

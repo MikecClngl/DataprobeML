@@ -12,9 +12,10 @@ from .serializer import ReviewSerializer
 
 # Create your views here.
 @csrf_exempt
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST', 'DELETE'])
 @parser_classes([MultiPartParser, FormParser])
-def reviewApi(request):
+def reviewApi(request, *args, **kwargs):
+    pk=kwargs.get('pk')
     if request.method == 'GET':
         reviews = Review.objects.all()
         reviews_data = []
@@ -101,3 +102,14 @@ def reviewApi(request):
                                  }, safe=False)  
         else:
             return JsonResponse(review_serializer.errors, status=400, safe=False)
+    elif request.method == 'DELETE':
+        if pk is None:
+            return JsonResponse({"error": "Review ID is required"}, status=400)
+        
+        try:
+            review = Review.objects.get(id=pk)
+            review.delete()
+            return JsonResponse({"message": "Review deleted successfully"}, status=204)
+        except Review.DoesNotExist:
+            return JsonResponse({"error": "Review not found"}, status=404)
+
