@@ -83,6 +83,7 @@ export class HomePage {
     }
   }
 
+  //Extract columns names of CSV
   extractColumnNames(csvText: string) {
     const lines = csvText.split('\n');
     if (lines.length > 0) {
@@ -160,6 +161,10 @@ export class HomePage {
     }
   );
     console.log(review);
+  }
+
+  closeColumnsChoise(){
+    window.location.reload();
   }
 
   navigateToHistory(){
