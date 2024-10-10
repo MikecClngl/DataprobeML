@@ -58,17 +58,17 @@ ion-progress-bar {
   height: 2em;
   border-radius: 1em;
   --background: #e0e0e0;
-  --progress-background: #465276;
+  --progress-background: #37446b;
   --buffer-background: rgba(255, 255, 255, 0.63);
 }
 
 .scrollable-alert .alert-message {
-  max-height: 300px;  // Set the max height to allow scrolling
-  overflow-y: auto;   // Enable vertical scrolling when content exceeds the height
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .alert-message {
-  white-space: pre-line;  // Preserve line breaks in the message text
+  white-space: pre-line;
 }
 
 .noResultsMessage{
@@ -78,8 +78,8 @@ ion-progress-bar {
 .errorReview{
   display: flex;
   flex-direction: column;
-  justify-content: center;  /* Per centrare orizzontalmente */
-  align-items: center;      /* Per centrare verticalmente */
-  height: 30em;            /* Rende l'altezza del div uguale a quella della finestra */
+  justify-content: center;
+  align-items: center;
+  height: 30em;
   text-align: center;
 }

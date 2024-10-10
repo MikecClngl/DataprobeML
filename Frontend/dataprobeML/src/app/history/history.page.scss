@@ -12,13 +12,14 @@ ion-content {
 .sortButton{
   width: 7vh;
   height: 1vh;
-  margin-top: 0; /* Assicura che il pulsante non abbia margini superiori */
-  padding: 0; /* Rimuove padding aggiuntivo se necessario */
-  display: flex;
+  margin-top: 0;
+  padding: 0;
+  display: absolute;
 }
 
-.flex-center {
-  display: flex;
+.trash-button{
+  min-height: 5em;
+  min-width: 5em;
 }
 
 .ion-padding {

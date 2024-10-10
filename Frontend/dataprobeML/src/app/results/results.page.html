@@ -1,4 +1,4 @@
-<ion-content class="ion-padding" scrollY="false">
+<ion-content class="ion-padding" scrollY="true">
 
   <ion-title class="ion-text-center">
     RESULTS FOR {{ results.name }}
@@ -14,15 +14,15 @@
           <div *ngFor="let review of analyses">
             <div class="score-div" *ngIf="review.type === 'BLEU' ">
               <h2>BLEU Score: {{ review.score | number: '.0-2' }}%</h2>
-              <ion-progress-bar [value]="review.score / 100"></ion-progress-bar>
+              <ion-progress-bar class="score-bar" [value]="review.score / 100"></ion-progress-bar>
             </div>
             <div class="score-div" *ngIf="review.type === 'CodeBLEU' ">
               <h2>CodeBLEU Score: {{ review.score | number: '.0-2' }}%</h2>
-              <ion-progress-bar [value]="review.score / 100"></ion-progress-bar>
+              <ion-progress-bar class="score-bar" [value]="review.score / 100"></ion-progress-bar>
             </div>
             <div class="score-div" *ngIf="review.type === 'CrystalBLEU' ">
               <h2>CrystalBLEU Score: {{ review.score | number: '.0-2' }}%</h2>
-              <ion-progress-bar [value]="review.score / 100"></ion-progress-bar>
+              <ion-progress-bar class="score-bar" [value]="review.score / 100"></ion-progress-bar>
             </div>
           </div>
         </div>
