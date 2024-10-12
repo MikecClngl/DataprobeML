@@ -1,6 +1,6 @@
 <ion-content class="ion-padding" fullscreen="true" scrollY="true">
 
-  <div class="background-animation"></div>
+  <div class="background"></div>
 
   <div class="logo-container">
     <img src="assets/icon/Logo.png" alt="Logo" class="logo">
@@ -13,18 +13,23 @@
   <ion-card class="custom-card">
     <ion-card-content class="card-content">
 
-      <ion-icon name="document-text-outline" class="fileIcon"></ion-icon>
+      <!--Container for upload file-->
+      <div class="upload-container" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" >
+        <div *ngIf="isDragging" class="overlayUpload">
+          <div class="icon-container" *ngIf="isDragging">
+            <ion-icon name="cloud-upload" class="upload-icon"></ion-icon>
+          </div>
+        </div>
+        <ion-icon name="document-outline" class="file-icon"></ion-icon>
+        <ion-button class="upload-button" fill="clear" (click)="fileInput.click()"  *ngIf="!fileIsInsert">Choose File</ion-button>
+        <input type="file" hidden (change)="handleFileInput($event)" #fileInput accept=".csv">
 
-      <!--Button for upload a file-->
-      <ion-button fill="outline" shape="round" class="newReview" *ngIf="!fileIsInsert">
-        <p class="chooseFileText">Choose file</p>
-        <input type="file" class="inputFile" (change)="handleFileInput($event)" accept=".csv">
-      </ion-button>
-
-      <!--File name if this is insert-->
-      <h1 class="fileName" *ngIf="fileIsInsert">
+        <!--File name if this is insert-->
+        <h2 class="fileName" *ngIf="fileIsInsert">
         {{ fileName }}
-      </h1>
+        </h2>
+        <h2  *ngIf="!fileIsInsert">or drag and drop your file here</h2>
+      </div>
 
       <p *ngIf="fileIsInsert" style="color: white; font-size: 2vh;" >Type of analysis: </p>
 

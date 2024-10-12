@@ -41,6 +41,8 @@ export class HomePage {
   crystalBleuScore: number = -1;
   codeBleuScore: number = -1;
 
+  isDragging: boolean = false;
+
   availableReviewModes = [
     { value: 'BLEU', label: 'BLEU' },
     { value: 'CODEBLEU', label: 'CODEBLEU' },
@@ -161,6 +163,63 @@ export class HomePage {
     }
   );
     console.log(review);
+  }
+
+  //drag file
+  onDragOver(event: DragEvent) {
+    if (this.fileIsInsert) {
+      event.preventDefault();
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.isDragging = true;
+  }
+
+  //drop file
+  onDrop(event: DragEvent) {
+    if (this.fileIsInsert) {
+      event.preventDefault();
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.isDragging = false;
+
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      if (this.isCSVFile(file)) {
+        const fileInputEvent = { target: { files } };
+        this.handleFileInput(fileInputEvent);
+      } else {
+        alert('Please upload a valid CSV file.');
+      }
+    }
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+    const inBounds = event.clientX > rect.left && event.clientX < rect.right &&
+                     event.clientY > rect.top && event.clientY < rect.bottom;
+
+    if (!inBounds) {
+      // Nascondi l'overlay solo se il puntatore esce dall'area del contenitore
+      this.isDragging = false;
+    }
+  }
+
+  //check if dropped file is a CSV
+  isCSVFile(file: File): boolean {
+    const fileType = file.type;
+    const fileName = file.name;
+    return fileType === 'text/csv' || fileName.endsWith('.csv');
   }
 
   closeColumnsChoise(){
