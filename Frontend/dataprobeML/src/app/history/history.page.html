@@ -36,6 +36,11 @@
         </ion-row>
 
         <div class="div-list" style="max-height: 400px; overflow-y: auto;">
+
+          <div *ngIf="filteredReviews.length === 0">
+            <p class="no-review">No review available</p>
+          </div>
+
           <ion-list class="ion-list">
             <ion-row *ngFor="let review of filteredReviews" class="history-item">
               <ion-col size="2">

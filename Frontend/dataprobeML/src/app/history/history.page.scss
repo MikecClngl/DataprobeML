@@ -79,4 +79,16 @@ ion-content {
   width: 50%;
 }
 
+.no-review {
+  font-size: xx-large;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 
