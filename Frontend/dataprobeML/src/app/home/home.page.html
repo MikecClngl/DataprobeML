@@ -10,6 +10,8 @@
     Analyse your CSV file and calculate various available parameter scores
   </h4>
 
+  <ion-loading class="custom-loading" *ngIf="analysisInProgress"></ion-loading>
+
   <ion-card class="custom-card">
     <ion-card-content class="card-content">
 
@@ -30,20 +32,6 @@
         </h2>
         <h2  *ngIf="!fileIsInsert">or drag and drop your file here</h2>
       </div>
-
-      <p *ngIf="fileIsInsert" style="color: white; font-size: 2vh;" >Type of analysis: </p>
-
-      <!--List of reviewModes for decide which type of analysis to do-->
-      <ion-list class="checkboxList" *ngIf="fileIsInsert">
-        <ion-select multiple="true" [(ngModel)]="reviewModes">
-          <ion-select-option *ngFor="let mode of availableReviewModes" [value]="mode.value">{{ mode.label }}</ion-select-option>
-        </ion-select>
-      </ion-list>
-
-      <!--Button to send the file and the type of analysis to backend-->
-      <ion-button class="submit" (click)="presentReviewNameAlert()" *ngIf="fileIsInsert" [disabled] = "!reviewModeSelected()" shape="round">
-        Submit
-      </ion-button>
 
       <!--Button to see the analysis history-->
       <ion-button *ngIf="!fileIsInsert" shape="round" class="view-history" (click)="navigateToHistory()">

@@ -312,3 +312,10 @@ ion-content {
   margin-top: 10px;
   font-size: 14px;
 }
+
+.custom-loading {
+  --background: #e3edff;
+  --spinner-color: #1c6dff;
+
+  color: #1c6dff;
+}

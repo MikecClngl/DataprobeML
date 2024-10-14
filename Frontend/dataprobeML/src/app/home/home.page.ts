@@ -6,6 +6,7 @@ import { Review } from '../models/review';
 import { ReviewService } from '../services/review.service';
 import { ResultsService } from '../services/results.service';
 import { Title } from '@angular/platform-browser';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,8 @@ export class HomePage {
       private router: Router,
       private reviewService : ReviewService,
       private resultsService : ResultsService,
-      private titleService : Title
+      private titleService : Title,
+      private loadingController: LoadingController
       ){
         this.titleService.setTitle('DataprobeML');
       }
@@ -35,19 +37,14 @@ export class HomePage {
   showColumnSelection = true;
   selectedColumnsButton = false;
 
-  reviewLabel: string = "defaultReviewName";
+  reviewLabel: string = "";
   reviewModes: string[] = [];
   bleuScore: number = -1;
   crystalBleuScore: number = -1;
   codeBleuScore: number = -1;
 
   isDragging: boolean = false;
-
-  availableReviewModes = [
-    { value: 'BLEU', label: 'BLEU' },
-    { value: 'CODEBLEU', label: 'CODEBLEU' },
-    { value: 'CRYSTALBLEU', label: 'CRYSTALBLEU' }
-  ];
+  analysisInProgress: boolean = false;
 
   //Activate button for columns choise
   activateSelectedColumnsButton(): boolean{
@@ -61,7 +58,22 @@ export class HomePage {
       console.log('Target Column:', this.selectedCandidateColumn);
 
       this.showColumnSelection = false;
+      this.presentAnalysisSelectionAlert();
     }
+  }
+
+  //show loading bar
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Processing results...',
+      duration: 0,
+      spinner: 'crescent',
+      cssClass: 'custom-loading',
+      backdropDismiss: false,
+      id : 'open-loading'
+    });
+    await loading.present();
+    return loading;
   }
 
   //Manage file uploading
@@ -88,8 +100,14 @@ export class HomePage {
   //Extract columns names of CSV
   extractColumnNames(csvText: string) {
     const lines = csvText.split('\n');
+
     if (lines.length > 0) {
-      this.columnNames = lines[0].split(','); // assuming CSV is comma separated
+      this.columnNames = lines[0].split(',').map((columnName, index) => {
+        if (!columnName.trim()) {
+          return `UndefinedColumnName`;
+        }
+        return columnName.trim();
+      });
     }
   }
 
@@ -110,16 +128,19 @@ export class HomePage {
       ],
       buttons: [
         {
-          text: 'Confirm',
+          text: 'Analyzes',
           cssClass: 'alert-button-blue',
           handler: (input) => {
-            this.reviewLabel = input[0];
-            this.uploadReview(input[0]);
+            this.reviewLabel = input[0] && input[0].trim() !== '' ? input[0] : 'defaultNameReview';
+            this.uploadReview(this.reviewLabel);
         },
         },
         {
           text: 'Cancel',
           cssClass: 'alert-button-red',
+          handler: () =>{
+            window.location.reload();
+          }
         },
       ],
     });
@@ -147,21 +168,101 @@ export class HomePage {
   await alert.present();
   }
 
+  //alert for select analysis type
+  async presentAnalysisSelectionAlert() {
+    const alert = await this.alertController.create({
+      header: 'SELECT THE TYPE OF ANALYSIS',
+      inputs: [
+        {
+          name: 'BLEU',
+          type: 'checkbox',
+          label: 'BLEU',
+          value: 'BLEU',
+          checked: this.reviewModes.includes('BLEU')
+        },
+        {
+          name: 'CodeBLEU',
+          type: 'checkbox',
+          label: 'CodeBLEU',
+          value: 'CODEBLEU',
+          checked: this.reviewModes.includes('CodeBLEU')
+        },
+        {
+          name: 'CrystalBLEU',
+          type: 'checkbox',
+          label: 'CrystalBLEU',
+          value: 'CRYSTALBLEU',
+          checked: this.reviewModes.includes('CrystalBLEU')
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Selection cancelled');
+            window.location.reload();
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: (selectedValues) => {
+            this.reviewModes = selectedValues;
+            console.log('Selected analysis modes:', this.reviewModes);
+            if(this.reviewModes.length > 0){
+              this.presentReviewNameAlert();
+            }else{
+              this.presentNoSelectionAlert();
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async presentNoSelectionAlert() {
+    const alert = await this.alertController.create({
+      header: 'No Selection',
+      message: 'Please select at least one analysis type.',
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            this.presentAnalysisSelectionAlert();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   //send file to backend with reviewService
   uploadReview(reviewLabel: string){
     if (!this.selectedFile || !this.selectedCandidateColumn || !this.selectedReferenceColumn){
       console.error('File or column not selected');
       return;
     }
+
     const review = new Review(this.selectedFile, reviewLabel, reviewLabel, new Date(), this.reviewModes, this.bleuScore, this.crystalBleuScore, this.codeBleuScore, this.selectedCandidateColumn, this.selectedReferenceColumn);
-    this.reviewService.uploadReview(review).subscribe(response =>{
-      console.log('Review caricata con successo:', response);
-      this.presentConfirmationUploadAlert();
-      this.resultsService.setResults(response);
-    }, error => {
-      console.error('Errore durante il caricamento della review:', error);
-    }
-  );
+
+    this.analysisInProgress = true;
+
+    this.presentLoading().then(loading => {
+      this.reviewService.uploadReview(review).subscribe(response =>{
+        console.log('Review uploaded succesfully:', response);
+        this.presentConfirmationUploadAlert();
+        this.resultsService.setResults(response);
+        this.analysisInProgress = false;
+        loading.dismiss();
+      }, error => {
+        console.error('Error during review upload:', error);
+        this.analysisInProgress = false;
+        loading.dismiss();
+      });
+    });
     console.log(review);
   }
 
