@@ -14,6 +14,7 @@ import { ResultsService } from '../services/results.service';
 export class ResultsPage implements OnInit {
   results : any;
   analyses: any[] = [];
+  analysisInProgress: boolean = false;
 
   constructor(
     private router: Router,
@@ -128,12 +129,34 @@ export class ResultsPage implements OnInit {
     this.reviewService.deleteReview(reviewId).subscribe(
       response => {
         console.log('Review deleted succesfully', response);
-        this.navigateToHome();
+        this.deletedAlertConfirm();
       },
       error => {
         console.error('Error, review not deleted', error);
       }
     );
+  }
+
+  async deletedAlertConfirm() {
+    const alert = await this.alertController.create({
+      header: 'Review Deleted',
+      message: 'The review has been successfully deleted.',
+      buttons: [{
+        text: 'OK',
+        handler: () => {
+          this.navigateToHistory()
+          window.location.reload()
+        }
+      }]
+    });
+
+    await alert.present();
+  }
+
+  navigateToHistory(){
+    this.router.navigate(['/history']).then(() => {
+      window.location.reload();
+    });
   }
 
   navigateToHome(){
