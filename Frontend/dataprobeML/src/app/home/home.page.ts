@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { LoadingController } from '@ionic/angular';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit{
 
   constructor(
       private alertController: AlertController,
@@ -23,9 +23,11 @@ export class HomePage {
       private resultsService : ResultsService,
       private titleService : Title,
       private loadingController: LoadingController
-      ){
-        this.titleService.setTitle('DataprobeML');
-      }
+      ){}
+
+  ngOnInit(): void {
+    this.titleService.setTitle("DataprobeML")
+  }
 
   selectedFile: File | undefined;
   fileIsInsert: boolean = false;
@@ -111,11 +113,6 @@ export class HomePage {
     }
   }
 
-  //Function to see if almost one reviewMode is selected for activate button "submit"
-  reviewModeSelected(): boolean {
-    return this.reviewModes.length > 0;
-  }
-
   //Alert for enter the name of review
   async presentReviewNameAlert() {
     const alert = await this.alertController.create({
@@ -143,6 +140,7 @@ export class HomePage {
           }
         },
       ],
+      backdropDismiss : false,
     });
   await alert.present();
   }
@@ -162,8 +160,12 @@ export class HomePage {
         {
           text: 'Cancel',
           cssClass: 'alert-button-red',
+          handler: () => {
+            window.location.reload()
+          }
         },
       ],
+      backdropDismiss: false,
     });
   await alert.present();
   }
@@ -171,7 +173,7 @@ export class HomePage {
   //alert for select analysis type
   async presentAnalysisSelectionAlert() {
     const alert = await this.alertController.create({
-      header: 'SELECT THE TYPE OF ANALYSIS',
+      header: 'Select the type of analysis:',
       inputs: [
         {
           name: 'BLEU',
@@ -197,16 +199,8 @@ export class HomePage {
       ],
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Selection cancelled');
-            window.location.reload();
-          }
-        },
-        {
           text: 'Confirm',
+          cssClass: 'alert-button-blue',
           handler: (selectedValues) => {
             this.reviewModes = selectedValues;
             console.log('Selected analysis modes:', this.reviewModes);
@@ -216,8 +210,18 @@ export class HomePage {
               this.presentNoSelectionAlert();
             }
           }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'alert-button-red',
+          handler: () => {
+            console.log('Selection cancelled');
+            window.location.reload();
+          }
         }
-      ]
+      ],
+      backdropDismiss: false,
     });
     await alert.present();
   }
@@ -229,11 +233,32 @@ export class HomePage {
       buttons: [
         {
           text: 'OK',
+          cssClass: 'alert-button-blue',
           handler: () => {
             this.presentAnalysisSelectionAlert();
           }
         }
-      ]
+      ],
+      backdropDismiss: false,
+    });
+
+    await alert.present();
+  }
+
+  async presentNoCSVfile() {
+    const alert = await this.alertController.create({
+      header: 'The file is not a CSV',
+      message: 'Please select a CSV file',
+      buttons: [
+        {
+          text: 'OK',
+          cssClass: 'alert-button-blue',
+          handler: () => {
+            window.location.reload();
+          }
+        }
+      ],
+      backdropDismiss: false,
     });
 
     await alert.present();
@@ -297,7 +322,7 @@ export class HomePage {
         const fileInputEvent = { target: { files } };
         this.handleFileInput(fileInputEvent);
       } else {
-        alert('Please upload a valid CSV file.');
+        this.presentNoCSVfile();
       }
     }
   }
@@ -311,7 +336,6 @@ export class HomePage {
                      event.clientY > rect.top && event.clientY < rect.bottom;
 
     if (!inBounds) {
-      // Nascondi l'overlay solo se il puntatore esce dall'area del contenitore
       this.isDragging = false;
     }
   }

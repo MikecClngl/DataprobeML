@@ -22,11 +22,10 @@ export class ResultsPage implements OnInit {
     private alertController: AlertController,
     private title: Title,
     private reviewService: ReviewService
-  ) {
-    title.setTitle("DataprobeML- Results")
-  }
+  ) {}
 
   ngOnInit() {
+    this.title.setTitle("DataprobeML- Results")
     if (history.state.review) {
       this.results = history.state.review;
       console.log(this.results)
@@ -143,6 +142,7 @@ export class ResultsPage implements OnInit {
       message: 'The review has been successfully deleted.',
       buttons: [{
         text: 'OK',
+        cssClass: 'alert-button-blue',
         handler: () => {
           this.navigateToHistory()
           window.location.reload()
