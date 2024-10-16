@@ -110,6 +110,9 @@ export class HomePage implements OnInit{
         }
         return columnName.trim();
       });
+      if(this.columnNames.length < 2){
+        this.presentMinColumnError();
+      }
     }
   }
 
@@ -145,7 +148,26 @@ export class HomePage implements OnInit{
   await alert.present();
   }
 
-  //send result to results page
+  //Alert if there are less of 2 columns
+    async presentMinColumnError() {
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: 'CSV has less of 2 columns!',
+        buttons: [
+          {
+            text: 'Ok',
+            cssClass: 'alert-button-blue',
+            handler: () => {
+              window.location.reload()
+            }
+          },
+        ],
+        backdropDismiss: false,
+      });
+    await alert.present();
+    }
+
+  //Send result to results page
   async presentConfirmationUploadAlert() {
     const alert = await this.alertController.create({
       header: 'Review uploaded succesfully!',
@@ -170,7 +192,7 @@ export class HomePage implements OnInit{
   await alert.present();
   }
 
-  //alert for select analysis type
+  //Alert for select analysis type
   async presentAnalysisSelectionAlert() {
     const alert = await this.alertController.create({
       header: 'Select the type of analysis:',
@@ -226,6 +248,7 @@ export class HomePage implements OnInit{
     await alert.present();
   }
 
+  //If no analysis types is chosen
   async presentNoSelectionAlert() {
     const alert = await this.alertController.create({
       header: 'No Selection',
@@ -245,6 +268,7 @@ export class HomePage implements OnInit{
     await alert.present();
   }
 
+  //If the file dropped is not a CSV file
   async presentNoCSVfile() {
     const alert = await this.alertController.create({
       header: 'The file is not a CSV',
@@ -264,7 +288,7 @@ export class HomePage implements OnInit{
     await alert.present();
   }
 
-  //send file to backend with reviewService
+  //Send file to backend with reviewService
   uploadReview(reviewLabel: string){
     if (!this.selectedFile || !this.selectedCandidateColumn || !this.selectedReferenceColumn){
       console.error('File or column not selected');
@@ -291,7 +315,7 @@ export class HomePage implements OnInit{
     console.log(review);
   }
 
-  //drag file
+  //Drag file
   onDragOver(event: DragEvent) {
     if (this.fileIsInsert) {
       event.preventDefault();
@@ -303,7 +327,7 @@ export class HomePage implements OnInit{
     this.isDragging = true;
   }
 
-  //drop file
+  //Drop file
   onDrop(event: DragEvent) {
     if (this.fileIsInsert) {
       event.preventDefault();
@@ -340,7 +364,7 @@ export class HomePage implements OnInit{
     }
   }
 
-  //check if dropped file is a CSV
+  //Check if dropped file is a CSV
   isCSVFile(file: File): boolean {
     const fileType = file.type;
     const fileName = file.name;
