@@ -37,9 +37,9 @@ export class ResultsPage implements OnInit {
       console.log(this.analyses)
 
       if (this.analyses.length === 0) {
-        this.presentAlert(true); // Assign true for activate "back Home button"
+        this.errorsAlert(true); // Assign true for activate "back Home button"
       } else if (this.results.errors && this.results.errors.length > 0) {
-        this.presentAlert(false);
+        this.errorsAlert(false);
     }
   }
 
@@ -61,7 +61,7 @@ export class ResultsPage implements OnInit {
     }
   }
 
-  async presentAlert(showHomeButton: boolean) {
+  async errorsAlert(showHomeButton: boolean) {
     const maxVisibleErrors = 10; // Max visibe errors
     let showAll = false; //show more
 
@@ -82,16 +82,16 @@ export class ResultsPage implements OnInit {
     const createAlert = async () => {
       const alertButtons: any[] = [];
 
-    if (this.results.errors.length > maxVisibleErrors) {
-    alertButtons.push({
-      text: showAll ? 'Show Less' : 'Show More',
-      cssClass: 'alert-button-blue',
-      handler: () => {
-        showAll = !showAll; // Invert "Show More" and "Show Less"
-        alert.dismiss().then(() => createAlert()); // Recreate alert
-      },
-    });
-  }
+      if (this.results.errors.length > maxVisibleErrors) {
+        alertButtons.push({
+          text: showAll ? 'Show Less' : 'Show More',
+          cssClass: 'alert-button-blue',
+          handler: () => {
+          showAll = !showAll; // Invert "Show More" and "Show Less"
+          alert.dismiss().then(() => createAlert()); // Recreate alert
+        },
+      });
+    }
 
     if(this.analyses.length > 0){
       alertButtons.push({
@@ -101,23 +101,23 @@ export class ResultsPage implements OnInit {
       });
     }
 
-      //If there are no results, add "back home" button
-      if (showHomeButton) {
-        alertButtons.push({
-          text: 'Back Home',
-          cssClass: 'alert-button-blue',
-          handler: () => {
-            this.navigateToHome();
-          },
-        });
-      }
-
-      const alert = await this.alertController.create({
-        header: 'Ops! There are some errors',
-        message: getErrorMessages(),
-        cssClass: `custom-alert ${showAll ? 'scrollable-alert' : ''}`,
-        buttons: alertButtons,
+    //If there are no results, add "back home" button
+    if(showHomeButton) {
+      alertButtons.push({
+        text: 'Back Home',
+        cssClass: 'alert-button-blue',
+        handler: () => {
+          this.navigateToHome();
+        },
       });
+    }
+
+    const alert = await this.alertController.create({
+      header: 'Ops! There are some errors',
+      message: getErrorMessages(),
+      cssClass: `custom-alert ${showAll ? 'scrollable-alert' : ''}`,
+      buttons: alertButtons,
+    });
 
       await alert.present();
     };
