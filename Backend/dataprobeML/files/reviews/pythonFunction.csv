@@ -1,0 +1,126 @@
+reference,target
+"def remove_duplicates_manual(lst): 
+	unique_elements = [] 
+	for elem in lst: 
+		if elem not in unique_elements: 
+			unique_elements.append(elem) 
+	return unique_elements",
+"def remove_duplicates_auto(lst): 
+	return list(dict.fromkeys(lst))"
+"def factorial_manual(n): 
+	if n == 0: 
+		return 1 
+	else: 
+		return n * factorial_manual(n-1)",
+"def factorial_auto(n): 
+	return 1 if n == 0 else n * factorial_auto(n-1)"
+"def reverse_string_manual(s): 
+	rev = '' 
+	for char in s: 
+		rev = char + rev 
+	return rev",
+"def reverse_string_auto(s): 
+	return s[::-1]"
+"def fibonacci_manual(n): 
+	a, b = 0, 1 
+	for _ in range(n): 
+		a, b = b, a + b 
+	return a",
+"def fibonacci_auto(n): 
+	a, b = 0, 1 
+	for _ in range(n): 
+		a, b = b, a + b 
+	return a"
+"def is_palindrome_manual(s): 
+	s = s.lower().replace(' ', '') 
+	return s == s[::-1]",
+"def is_palindrome_auto(s): 
+	return s.lower().replace(' ', '') == s[::-1]"
+"def sum_list_manual(lst): 
+	total = 0 
+	for num in lst: 
+		total += num 
+	return total",
+"def sum_list_auto(lst): 
+	return sum(lst)"
+"def count_vowels_manual(s): 
+	vowels = 'aeiou' 
+	count = 0 
+	for char in s.lower(): 
+		if char in vowels: 
+			count += 1 
+	return count",
+"def count_vowels_auto(s): 
+	return sum(1 for char in s.lower() if char in 'aeiou')"
+"def merge_dicts_manual(d1, d2): 
+	merged = d1.copy() 
+	merged.update(d2) 
+	return merged",
+"def merge_dicts_auto(d1, d2): 
+	return {**d1, **d2}"
+"def gcd_manual(a, b): 
+	while b: 
+		a, b = b, a % b 
+	return a",
+"def gcd_auto(a, b): 
+	return a if not b else gcd_auto(b, a % b)"
+"def square_list_manual(lst): 
+	squares = [] 
+	for num in lst: 
+		squares.append(num ** 2) 
+	return squares",
+"def square_list_auto(lst): 
+	return [num ** 2 for num in lst]"
+"def flatten_list_manual(lst): 
+	flat_list = [] 
+	for sublist in lst: 
+		for item in sublist: 
+			flat_list.append(item) 
+	return flat_list",
+"def flatten_list_auto(lst): 
+	return [item for sublist in lst for item in sublist]"
+"def capitalize_words_manual(s): 
+	return ' '.join([word.capitalize() for word in s.split()])",
+"def capitalize_words_auto(s): 
+	return s.title()"
+"def find_max_manual(lst): 
+	max_num = lst[0] 
+	for num in lst: 
+		if num > max_num: 
+			max_num = num 
+	return max_num",
+"def find_max_auto(lst): 
+	return max(lst)"
+"def factorial_loop_manual(n): 
+	result = 1 
+	for i in range(2, n+1): 
+		result *= i 
+	return result",
+"def factorial_loop_auto(n): 
+	return 1 if n == 0 else n * factorial_loop_auto(n-1)"
+"def is_even_manual(n): 
+	return True if n % 2 == 0 else False",
+"def is_even_auto(n): 
+	return n % 2 == 0"
+"def zip_lists_manual(lst1, lst2): 
+	zipped = [] 
+	for i in range(len(lst1)): 
+		zipped.append((lst1[i], lst2[i])) 
+	return zipped",
+"def zip_lists_auto(lst1, lst2): 
+	return list(zip(lst1, lst2))"
+"def filter_even_manual(lst): 
+	evens = [] 
+	for num in lst: 
+		if num % 2 == 0: 
+			evens.append(num) 
+	return evens",
+"def filter_even_auto(lst): 
+	return [num for num in lst if num % 2 == 0]"
+"def map_square_manual(lst): 
+	squares = [] 
+	for num in lst: 
+		squares.append(num ** 2) 
+	return squares",
+"def map_square_auto(lst): 
+	return list(map(lambda x: x ** 2, lst))"
