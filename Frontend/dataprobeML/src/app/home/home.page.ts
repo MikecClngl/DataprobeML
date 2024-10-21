@@ -26,7 +26,8 @@ export class HomePage implements OnInit{
       ){}
 
   ngOnInit(): void {
-    this.titleService.setTitle("DataprobeML")
+    this.titleService.setTitle("DataprobeML");
+    this.loadReviews();
   }
 
   selectedFile: File | undefined;
@@ -38,15 +39,29 @@ export class HomePage implements OnInit{
   selectedReferenceColumn: string | undefined;
   showColumnSelection = true;
   selectedColumnsButton = false;
-
   reviewLabel: string = "";
   reviewModes: string[] = [];
   bleuScore: number = -1;
   crystalBleuScore: number = -1;
   codeBleuScore: number = -1;
+  reviews: Review[] = [];
+
 
   isDragging: boolean = false;
   analysisInProgress: boolean = false;
+
+  //load Reviews
+  loadReviews() {
+    this.reviewService.loadReview().subscribe(
+      (data: Review[]) => {
+        this.reviews = data;
+        console.log('Reviews uploaded successfully:', this.reviews);
+      },
+      error => {
+        console.error('Error uploading revisions:', error);
+      }
+    );
+  }
 
   //Activate button for columns choise
   activateSelectedColumnsButton(): boolean{
@@ -131,8 +146,26 @@ export class HomePage implements OnInit{
           text: 'Analyzes',
           cssClass: 'alert-button-blue',
           handler: (input) => {
-            this.reviewLabel = input[0] && input[0].trim() !== '' ? input[0] : 'defaultNameReview';
-            this.uploadReview(this.reviewLabel);
+            this.reviewLabel = input[0] && input[0].trim() !== '' ? input[0].trim() : null;
+
+            if (!this.reviewLabel) {
+              const defaultBaseName = 'defaultNameReview';
+              let counter = 1;
+
+              while (this.reviews.some(review => review.name === `${defaultBaseName}${counter}`)) {
+                counter++;
+              }
+
+              this.reviewLabel = `${defaultBaseName}${counter}`;
+            }
+
+            const reviewExists = this.reviews.some(review => review.name === this.reviewLabel);
+
+            if (reviewExists) {
+              this.presentExistingNameAlert();
+            } else {
+              this.uploadReview(this.reviewLabel);
+            }
         },
         },
         {
@@ -143,29 +176,47 @@ export class HomePage implements OnInit{
           }
         },
       ],
-      backdropDismiss : false,
+      backdropDismiss: false,
     });
   await alert.present();
   }
 
+  async presentExistingNameAlert(){
+    const alert = await this.alertController.create({
+      header: 'A review with this name already exists',
+      message: 'Insert a different name',
+      buttons: [
+        {
+          text: 'Ok',
+          cssClass: 'alert-button-blue',
+          handler: () => {
+            this.presentReviewNameAlert();
+          }
+        },
+      ],
+      backdropDismiss: false,
+    })
+    await alert.present()
+  }
+
   //Alert if there are less of 2 columns
-    async presentMinColumnError() {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'CSV has less of 2 columns!',
-        buttons: [
-          {
-            text: 'Ok',
-            cssClass: 'alert-button-blue',
-            handler: () => {
-              window.location.reload()
-            }
-          },
-        ],
-        backdropDismiss: false,
-      });
+  async presentMinColumnError() {
+    const alert = await this.alertController.create({
+      header: 'Error',
+      message: 'CSV has less of 2 columns!',
+      buttons: [
+        {
+          text: 'Ok',
+          cssClass: 'alert-button-blue',
+          handler: () => {
+          window.location.reload()
+          }
+        },
+      ],
+      backdropDismiss: false,
+    });
     await alert.present();
-    }
+  }
 
   //Send result to results page
   async presentConfirmationUploadAlert() {

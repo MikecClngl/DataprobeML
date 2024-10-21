@@ -5,11 +5,14 @@ FROM node:latest as node
 #Working directory
 WORKDIR /app
 
-# Copy folder
+# Copy package.json and package-lock.json to install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy the rest of the application
 COPY . .
 
-# Copile angular app
-RUN npm install
+# Build the Angular app
 RUN npm run build --prod
 
 #Server NGINX for app

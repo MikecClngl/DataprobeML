@@ -35,10 +35,10 @@ export class HistoryPage implements OnInit {
       (data: Review[]) => {
         this.reviews = data;
         this.filteredReviews = this.reviews;
-        console.log('Revisioni caricate con successo:', this.reviews);
+        console.log('Reviews uploaded successfully:', this.reviews);
       },
       error => {
-        console.error('Errore durante il caricamento delle revisioni:', error);
+        console.error('Error uploading revisions:', error);
       }
     );
   }
