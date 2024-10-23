@@ -139,6 +139,9 @@ export class HomePage implements OnInit{
         {
           placeholder: 'Name',
           cssClass: 'alert-input',
+          attributes: {
+            maxlength: 20
+          }
         },
       ],
       buttons: [
