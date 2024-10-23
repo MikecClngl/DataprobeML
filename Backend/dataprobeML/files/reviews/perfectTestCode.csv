@@ -9,48 +9,51 @@ reference,candidate
     for elem in lst:
         if elem not in unique_elements:
             unique_elements.append(elem)
-    return unique_elements"   
+    return unique_elements"
 "def factorial(n):
     if n == 0:
         return 1
     else:
         return n * factorial(n-1)","def factorial(n):
-    result = 1
-    for i in range(1, n+1):
-        result *= i
-    return result"
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n-1)"
 "def is_palindrome(s):
     return s == s[::-1]","def is_palindrome(s):
-    s = s.replace(' ', '').lower()
     return s == s[::-1]"
 "def fibonacci(n):
     if n <= 1:
         return n
     else:
         return fibonacci(n-1) + fibonacci(n-2)","def fibonacci(n):
-    a, b = 0, 1
-    for i in range(n):
-        a, b = b, a + b
-    return a"
+    if n <= 1:
+        return n
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)"
 "def sum_list(lst):
     total = 0
     for num in lst:
         total += num
     return total","def sum_list(lst):
-    return sum(lst)"
+    total = 0
+    for num in lst:
+        total += num
+    return total"
 "def reverse_string(s):
     return s[::-1]","def reverse_string(s):
-    reversed_str = ''
-    for char in s:
-        reversed_str = char + reversed_str
-    return reversed_str"
+    return s[::-1]"
 "def find_max(lst):
     max_num = lst[0]
     for num in lst:
         if num > max_num:
             max_num = num
     return max_num","def find_max(lst):
-    return max(lst)"
+    max_num = lst[0]
+    for num in lst:
+        if num > max_num:
+            max_num = num
+    return max_num"
 "def count_vowels(s):
     count = 0
     vowels = 'aeiouAEIOU'
@@ -58,12 +61,19 @@ reference,candidate
         if char in vowels:
             count += 1
     return count","def count_vowels(s):
-    return sum(1 for char in s if char.lower() in 'aeiou')"
+    count = 0
+    vowels = 'aeiouAEIOU'
+    for char in s:
+        if char in vowels:
+            count += 1
+    return count"
 "def gcd(a, b):
     while b != 0:
         a, b = b, a % b
     return a","def gcd(a, b):
-    return gcd(b, a % b) if b else a"
+    while b != 0:
+        a, b = b, a % b
+    return a"
 "def is_prime(n):
     if n <= 1:
         return False
@@ -71,17 +81,9 @@ reference,candidate
         if n % i == 0:
             return False
     return True","def is_prime(n):
-    if n < 2:
+    if n <= 1:
         return False
-    for i in range(2, n):
+    for i in range(2, int(n**0.5) + 1):
         if n % i == 0:
             return False
     return True"
-"def flatten_list(lst):
-    flat_list = []
-    for sublist in lst:
-        for item in sublist:
-            flat_list.append(item)
-    return flat_list","def flatten_list(lst):
-    return [item for sublist in lst for item in sublist]"
-

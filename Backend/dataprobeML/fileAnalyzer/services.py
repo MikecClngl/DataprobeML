@@ -28,9 +28,6 @@ def calculate_bleu_from_csv(file_path, candidate_column, reference_column):
     for _, row in df.iterrows():
         reference_text = str(row[reference_column]).strip()
         candidate_text = str(row[candidate_column]).strip()
-
-        print(reference_text)
-        print(candidate_text)
         
         try:
             references.append(reference_text)
@@ -88,10 +85,6 @@ def calculate_codebleu(reference_code, candidate_code):
     # Calculate Data flow similarity
     data_flow_similarity = get_data_flow_similarity(reference_code, candidate_code)*100
 
-    print(f"BLEU score: {bleu_score}")
-    print(f"AST similarity: {ast_similarity}")
-    print(f"Data-flow similarity: {data_flow_similarity}")
-    
     # Combining different scores
     codebleu_score = 0.6 * bleu_score + 0.2 * ast_similarity + 0.2 * data_flow_similarity
     return codebleu_score

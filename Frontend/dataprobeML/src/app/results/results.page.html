@@ -26,6 +26,21 @@
             </div>
           </div>
         </div>
+
+        <div class="changeDeleteDiv">
+          <div *ngIf="analyses.length !== 0">
+            <ion-button class="changeName" fill="clear" *ngIf="results.id !== undefined" (click)="changeReviewName(results.id)">
+              <ion-icon name="create-outline"></ion-icon>
+              Rename Review
+            </ion-button>
+          </div>
+          <div *ngIf="analyses.length !== 0">
+            <ion-button fill="clear" size="small" color="danger" *ngIf="results.id !== undefined" (click)="deleteReview(results.id)">
+              Delete review<ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+
         <div class="errorReview" align="center" *ngIf="analyses.length === 0">
           <p class="noResultsMessage">This review contains errors</p>
           <ion-button fill="clear" size="small" color="danger" *ngIf="results.id !== undefined" (click)="deleteReview(results.id)">

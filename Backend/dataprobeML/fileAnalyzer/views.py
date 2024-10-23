@@ -12,7 +12,7 @@ from .serializer import ReviewSerializer
 
 # Create your views here.
 @csrf_exempt
-@api_view(['GET', 'POST', 'DELETE'])
+@api_view(['GET', 'POST', 'DELETE', 'PUT'])
 @parser_classes([MultiPartParser, FormParser])
 def reviewApi(request, *args, **kwargs):
     pk=kwargs.get('pk')
@@ -112,4 +112,17 @@ def reviewApi(request, *args, **kwargs):
             return JsonResponse({"message": "Review deleted successfully"}, status=204)
         except Review.DoesNotExist:
             return JsonResponse({"error": "Review not found"}, status=404)
+    elif request.method == 'PUT':
+        try:
+            review = Review.objects.get(id=pk)
+        except Review.DoesNotExist:
+            return JsonResponse({'error': 'Review not found'}, status=404)
+
+        data = JSONParser().parse(request)
+        review.name = data.get('name', review.name)
+        review.save()
+
+        return JsonResponse({'message': 'Review name updated successfully'}, status=200)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
 

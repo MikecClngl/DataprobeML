@@ -5,6 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { ReviewService } from '../services/review.service';
 
 import { ResultsService } from '../services/results.service';
+import { Review } from '../models/review';
 
 @Component({
   selector: 'app-results',
@@ -15,6 +16,7 @@ export class ResultsPage implements OnInit {
   results : any;
   analyses: any[] = [];
   analysisInProgress: boolean = false;
+  reviews: Review[] = []
 
   constructor(
     private router: Router,
@@ -26,6 +28,7 @@ export class ResultsPage implements OnInit {
 
   ngOnInit() {
     this.title.setTitle("DataprobeML- Results")
+    this.loadReviews()
     if (history.state.review) {
       this.results = history.state.review;
       console.log(this.results)
@@ -41,6 +44,18 @@ export class ResultsPage implements OnInit {
       } else if (this.results.errors && this.results.errors.length > 0) {
         this.errorsAlert(false);
     }
+  }
+
+  loadReviews() {
+    this.reviewService.loadReview().subscribe(
+      (data: Review[]) => {
+        this.reviews = data;
+        console.log('Reviews uploaded successfully:', this.reviews);
+      },
+      error => {
+        console.error('Error uploading revisions:', error);
+      }
+    );
   }
 
   filterAnalyses() {
@@ -140,6 +155,95 @@ export class ResultsPage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Review Deleted',
       message: 'The review has been successfully deleted.',
+      buttons: [{
+        text: 'OK',
+        cssClass: 'alert-button-blue',
+        handler: () => {
+          this.navigateToHistory()
+          window.location.reload()
+        }
+      }]
+    });
+
+    await alert.present();
+  }
+
+  //Alert if there is a review with the same name (change name)
+  async presentExistingNameAlert(reviewId: number){
+    const alert = await this.alertController.create({
+      header: 'A review with this name already exists',
+      message: 'Insert a different name',
+      buttons: [
+        {
+          text: 'Ok',
+          cssClass: 'alert-button-blue',
+          handler: () => {
+            this.changeReviewName(reviewId);
+          }
+        },
+      ],
+      backdropDismiss: false,
+    })
+    await alert.present()
+  }
+
+  //Alert for change review name
+  async changeReviewName(reviewId: number) {
+    let newReviewLabel = ''
+    const alert = await this.alertController.create({
+      header: 'Insert new review name:',
+      inputs: [
+        {
+          placeholder: 'Name',
+          cssClass: 'alert-input',
+          attributes:{
+            maxlength: 20,
+          }
+        },
+      ],
+      buttons: [
+        {
+          text: 'Confirm',
+          cssClass: 'alert-button-blue',
+          handler: (input) => {
+            newReviewLabel = input[0] && input[0].trim() !== '' ? input[0].trim() : null;
+
+            if (!newReviewLabel) {
+              const defaultBaseName = 'defaultNameReview';
+              let counter = 1;
+
+              while (this.reviews.some(review => review.name === `${defaultBaseName}${counter}`)) {
+                counter++;
+              }
+
+              newReviewLabel= `${defaultBaseName}${counter}`;
+            }
+
+            const reviewExists = this.reviews.some(review => review.name === newReviewLabel);
+
+            if (reviewExists) {
+              this.presentExistingNameAlert(reviewId);
+            } else {
+              this.reviewService.updateReviewName(reviewId, newReviewLabel);
+              this.changeNameConfirm(newReviewLabel);
+            }
+        },
+        },
+        {
+          text: 'Cancel',
+          cssClass: 'alert-button-red',
+        },
+      ],
+      backdropDismiss: false,
+    });
+    await alert.present();
+  }
+
+  //Alert for confirm name change
+  async changeNameConfirm(newName: string) {
+    const alert = await this.alertController.create({
+      header: 'Name changed succesfully',
+      message: `Review name has been successfully changed to "${newName}"`,
       buttons: [{
         text: 'OK',
         cssClass: 'alert-button-blue',

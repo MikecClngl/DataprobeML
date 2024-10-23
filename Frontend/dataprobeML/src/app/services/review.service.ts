@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Review } from '../models/review';
-import { Observable } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class ReviewService {
   private apiUrl = 'http://127.0.0.1:8000/reviews/'
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
   ) {}
 
   //post api to send review to backend
@@ -39,4 +39,29 @@ export class ReviewService {
     const url = `${this.apiUrl}${reviewId}`;
     return this.http.delete<any>(url);
   }
+
+  updateReviewName(reviewId: number, reviewLabel: string): void {
+    const url = `${this.apiUrl}${reviewId}`;
+    const body = {
+      id: reviewId,
+      name: reviewLabel
+    };
+
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json');
+
+    console.log('Sending PUT request to:', url);
+    console.log('Body:', body);
+
+    this.http.put<any>(url, body, { headers }).subscribe(
+      (response) => {
+        console.log('PUT Success:', response);
+      },
+      (error) => {
+        console.error('PUT Error:', error);
+      }
+    );
+  }
+
 }
