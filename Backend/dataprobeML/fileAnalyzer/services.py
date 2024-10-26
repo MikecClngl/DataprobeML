@@ -1,3 +1,5 @@
+import csv
+import io
 import sacrebleu
 import pandas as pd
 import ast
@@ -9,7 +11,14 @@ def calculate_bleu_score(reference_texts, candidate_text):
     return score.score
 
 def calculate_bleu_from_csv(file_path, candidate_column, reference_column):
-    df = pd.read_csv(file_path)
+    with open(file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+    
+    content = content.replace(',\n', ',') 
+    content = "\n".join([line for line in content.splitlines() if line.strip()])
+
+    df = pd.read_csv(io.StringIO(content), quoting=csv.QUOTE_MINIMAL, skipinitialspace=True)
+
     references = []
     candidates = []
 
@@ -17,16 +26,21 @@ def calculate_bleu_from_csv(file_path, candidate_column, reference_column):
     candidate_column = candidate_column.strip()
 
     for _, row in df.iterrows():
-        reference_texts = [row[reference_column]]
-        candidate_text = row[candidate_column]
-        try:
-            references.append(reference_texts)
-            candidates.append(candidate_text)
-        except Exception as e:
-            print(f"Errore nel calcolo del punteggio BLEU per la riga: {row}")
-            print(f"Errore: {e}")
+        reference_text = str(row[reference_column]).strip()
+        candidate_text = str(row[candidate_column]).strip()
 
-    overall_bleu_score = sacrebleu.corpus_bleu(candidates, [list(ref) for ref in zip(*references)])
+        print(reference_text)
+        print(candidate_text)
+        
+        try:
+            references.append(reference_text)
+            candidates.append(candidate_text)
+
+        except Exception as e:
+            print(f"Error calculating BLEU score in row: {row}")
+            print(f"Error: {e}")
+
+    overall_bleu_score = sacrebleu.corpus_bleu(candidates, [references])
     return overall_bleu_score.score
 
 #Functions for calculate CodeBLEU score
@@ -69,13 +83,17 @@ def calculate_codebleu(reference_code, candidate_code):
     bleu_score = sacrebleu.sentence_bleu(candidate_code, reference_texts).score
     
     # Calculate AST similarity
-    ast_similarity = get_ast_similarity(reference_code, candidate_code)
+    ast_similarity = get_ast_similarity(reference_code, candidate_code)*100
     
     # Calculate Data flow similarity
-    data_flow_similarity = get_data_flow_similarity(reference_code, candidate_code)
+    data_flow_similarity = get_data_flow_similarity(reference_code, candidate_code)*100
+
+    print(f"BLEU score: {bleu_score}")
+    print(f"AST similarity: {ast_similarity}")
+    print(f"Data-flow similarity: {data_flow_similarity}")
     
     # Combining different scores
-    codebleu_score = 0.4 * bleu_score + 0.3 * ast_similarity + 0.3 * data_flow_similarity
+    codebleu_score = 0.6 * bleu_score + 0.2 * ast_similarity + 0.2 * data_flow_similarity
     return codebleu_score
 
 def calculate_code_bleu_from_csv(file_path, candidate_column, reference_column):
@@ -88,15 +106,15 @@ def calculate_code_bleu_from_csv(file_path, candidate_column, reference_column):
     candidate_column = candidate_column.strip()
 
     for index, row in df.iterrows():
-        reference_code = row[reference_column]
-        candidate_code = row[candidate_column]
+        reference_code = str(row[reference_column])
+        candidate_code = str(row[candidate_column])
         try:
             codebleu_score = calculate_codebleu(reference_code, candidate_code)
             total_codebleu_score += codebleu_score
             count += 1
         except Exception as e:
-            print(f"Errore nel calcolo del punteggio CodeBLEU per la riga: {index + 2}")
-            print(f"Errore: {e}")
+            print(f"Error calculating CodeBLEU score in row: {index + 2}")
+            print(f"Error: {e}")
             errors.append({"error": str(e), "row": index + 2 })
 
     # Calculate scores average
@@ -114,10 +132,10 @@ def calculate_crystalbleu(reference_code, candidate_code):
     bleu_score = sacrebleu.sentence_bleu(candidate_code, reference_texts).score
     
     # Calculate AST similarity
-    ast_similarity = get_ast_similarity(reference_code, candidate_code)
+    ast_similarity = get_ast_similarity(reference_code, candidate_code)*100
     
     # Combining different scores
-    crystalbleu_score = 0.5 * bleu_score + 0.5 * ast_similarity
+    crystalbleu_score = 0.6 * bleu_score + 0.4 * ast_similarity
     return crystalbleu_score
 
 def calculate_crystal_bleu_from_csv(file_path, candidate_column, reference_column):
@@ -130,15 +148,15 @@ def calculate_crystal_bleu_from_csv(file_path, candidate_column, reference_colum
     candidate_column = candidate_column.strip()
 
     for index, row in df.iterrows():
-        reference_code = row[reference_column]
-        candidate_code = row[candidate_column]
+        reference_code = str(row[reference_column])
+        candidate_code = str(row[candidate_column])
         try:
             crystalbleu_score = calculate_crystalbleu(reference_code, candidate_code)
             total_crystalbleu_score += crystalbleu_score
             count += 1
         except Exception as e:
-            print(f"Errore nel calcolo del punteggio CrystalBLEU per la riga: {index + 2}")
-            print(f"Errore: {e}")
+            print(f"Error calculating CodeBLEU score in row: {index + 2}")
+            print(f"Error: {e}")
             errors.append({"error": str(e), "row": index + 2})
 
     # Calculate scores average

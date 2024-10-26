@@ -1,5 +1,5 @@
 ion-content {
-  --background: linear-gradient(to bottom, #050320, #2d507e);
+  --background: linear-gradient(to bottom, #050320, #3c6498);
 }
 
 .ion-padding {
@@ -54,12 +54,12 @@ ion-progress-bar {
   margin-top: 1em;
   margin-left: 5em;
   margin-bottom: em;
-  width: 50em;
-  height: 2em;
-  border-radius: 1em;
-  --background: #e0e0e0;
-  --progress-background: #37446b;
-  --buffer-background: rgba(255, 255, 255, 0.63);
+  width: 50rem;
+  height: 2.4em;
+  border-radius: 4em;
+  --background: #ffffff;
+  --progress-background: #437f85;
+  --buffer-background: rgba(255, 255, 255, 0.934);
 }
 
 .scrollable-alert .alert-message {

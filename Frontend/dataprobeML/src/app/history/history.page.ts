@@ -23,11 +23,10 @@ export class HistoryPage implements OnInit {
     private reviewService: ReviewService,
     private title: Title,
     private alertController: AlertController
-  ) {
-    title.setTitle("DataprobeML - History");
-  }
+  ) {}
 
   async ngOnInit() {
+    this.title.setTitle("DataprobeML - History")
     this.loadReviews();
   }
 
@@ -36,10 +35,10 @@ export class HistoryPage implements OnInit {
       (data: Review[]) => {
         this.reviews = data;
         this.filteredReviews = this.reviews;
-        console.log('Revisioni caricate con successo:', this.reviews);
+        console.log('Reviews uploaded successfully:', this.reviews);
       },
       error => {
-        console.error('Errore durante il caricamento delle revisioni:', error);
+        console.error('Error uploading revisions:', error);
       }
     );
   }
@@ -113,6 +112,7 @@ export class HistoryPage implements OnInit {
       message: 'The review has been successfully deleted.',
       buttons: [{
         text: 'OK',
+        cssClass: 'alert-button-blue',
         handler: () => {
           window.location.reload()
         }
