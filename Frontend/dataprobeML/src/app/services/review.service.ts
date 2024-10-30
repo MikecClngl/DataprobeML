@@ -14,7 +14,7 @@ export class ReviewService {
   ) {}
 
   //post api to send review to backend
-  uploadReview(review: Review): Observable<any> {
+  uploadReview(review: Review, token: string): Observable<any> {
     const formData = new FormData();
     formData.append('review', review.file);
     formData.append('name', review.name);
@@ -26,12 +26,14 @@ export class ReviewService {
 
     const headers = new HttpHeaders();
     headers.append('Accept', 'application/json');
+    headers.append('Authorization', `Token ${token}`);
 
     return this.http.post<any>(this.apiUrl, formData, { headers });
   }
   //get api to get the saved reviews
-  loadReview(): Observable<Review[]> {
-    return this.http.get<Review[]>(this.apiUrl);
+  loadReview(token: string): Observable<Review[]> {
+    const headers = new HttpHeaders().set('Authorization', `Token ${token}`);
+    return this.http.get<Review[]>(this.apiUrl, { headers });
   }
 
   //delete api for delete a review

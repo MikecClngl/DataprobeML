@@ -27,8 +27,9 @@ export class ResultsPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    const token = localStorage.getItem('token') || ''
     this.title.setTitle("DataprobeML- Results")
-    this.loadReviews()
+    this.loadReviews(token)
     if (history.state.review) {
       this.results = history.state.review;
       console.log(this.results)
@@ -46,8 +47,8 @@ export class ResultsPage implements OnInit {
     }
   }
 
-  loadReviews() {
-    this.reviewService.loadReview().subscribe(
+  loadReviews(token: string) {
+    this.reviewService.loadReview(token).subscribe(
       (data: Review[]) => {
         this.reviews = data;
         console.log('Reviews uploaded successfully:', this.reviews);

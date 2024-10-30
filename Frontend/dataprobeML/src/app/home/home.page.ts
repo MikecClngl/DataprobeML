@@ -52,15 +52,21 @@ export class HomePage implements OnInit{
 
   //load Reviews
   loadReviews() {
-    this.reviewService.loadReview().subscribe(
-      (data: Review[]) => {
-        this.reviews = data;
-        console.log('Reviews uploaded successfully:', this.reviews);
-      },
-      error => {
-        console.error('Error uploading revisions:', error);
-      }
-    );
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.reviewService.loadReview(token).subscribe(
+        (data: Review[]) => {
+          this.reviews = data;
+          console.log('Reviews loaded successfully:', this.reviews);
+        },
+        error => {
+          console.error('Error loading reviews:', error);
+        }
+      );
+    } else {
+      console.error('Token not found. Redirecting to login.');
+      this.router.navigate(['/login']);
+    }
   }
 
   //Activate button for columns choise
@@ -133,6 +139,7 @@ export class HomePage implements OnInit{
 
   //Alert for enter the name of review
   async presentReviewNameAlert() {
+    const token = localStorage.getItem('token') || '';
     const alert = await this.alertController.create({
       header: 'Insert review name:',
       inputs: [
@@ -167,7 +174,7 @@ export class HomePage implements OnInit{
             if (reviewExists) {
               this.presentExistingNameAlert();
             } else {
-              this.uploadReview(this.reviewLabel);
+              this.uploadReview(this.reviewLabel, token);
             }
         },
         },
@@ -343,7 +350,7 @@ export class HomePage implements OnInit{
   }
 
   //Send file to backend with reviewService
-  uploadReview(reviewLabel: string){
+  uploadReview(reviewLabel: string, token: string){
     if (!this.selectedFile || !this.selectedCandidateColumn || !this.selectedReferenceColumn){
       console.error('File or column not selected');
       return;
@@ -354,7 +361,7 @@ export class HomePage implements OnInit{
     this.analysisInProgress = true;
 
     this.presentLoading().then(loading => {
-      this.reviewService.uploadReview(review).subscribe(response =>{
+      this.reviewService.uploadReview(review, token).subscribe(response =>{
         console.log('Review uploaded succesfully:', response);
         this.presentConfirmationUploadAlert();
         this.resultsService.setResults(response);

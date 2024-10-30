@@ -26,12 +26,13 @@ export class HistoryPage implements OnInit {
   ) {}
 
   async ngOnInit() {
+    const token = localStorage.getItem('token') || ''
     this.title.setTitle("DataprobeML - History")
-    this.loadReviews();
+    this.loadReviews(token);
   }
 
-  loadReviews() {
-    this.reviewService.loadReview().subscribe(
+  loadReviews(token: string) {
+    this.reviewService.loadReview(token).subscribe(
       (data: Review[]) => {
         this.reviews = data;
         this.filteredReviews = this.reviews;
