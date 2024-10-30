@@ -1,0 +1,787 @@
+reference,candidate
+"def remove_duplicates_manual(lst):
+    unique_elements = []
+    for elem in lst:
+        if elem not in unique_elements:
+            unique_elements.append(elem)
+    return unique_elements","def remove_duplicates_manual(lst):
+    unique_elements = []
+    for elem in lst:
+        if elem not in unique_elements:
+            unique_elements.append(elem)
+    return unique_elements"  
+"def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n-1)","def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n-1)"
+"def is_palindrome(s):
+    return s == s[::-1]","def is_palindrome(s):
+    return s == s[::-1]"
+"def fibonacci(n):
+    if n <= 1:
+        return n
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)","def fibonacci(n):
+    if n <= 1:
+        return n
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)"
+"def sum_list(lst):
+    total = 0
+    for num in lst:
+        total += num
+    return total","def sum_list(lst):
+    total = 0
+    for num in lst:
+        total += num
+    return total"
+"def reverse_string(s):
+    return s[::-1]","def reverse_string(s):
+    return s[::-1]"
+"def find_max(lst):
+    max_num = lst[0]
+    for num in lst:
+        if num > max_num:
+            max_num = num
+    return max_num","def find_max(lst):
+    max_num = lst[0]
+    for num in lst:
+        if num > max_num:
+            max_num = num
+    return max_num"
+"def count_vowels(s):
+    count = 0
+    vowels = 'aeiouAEIOU'
+    for char in s:
+        if char in vowels:
+            count += 1
+    return count","def count_vowels(s):
+    count = 0
+    vowels = 'aeiouAEIOU'
+    for char in s:
+        if char in vowels:
+            count += 1
+    return count"
+"def gcd(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return a","def gcd(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return a"
+"def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True","def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True"
+"def flatten_list(lst):
+    flat_list = []
+    for sublist in lst:
+        for item in sublist:
+            flat_list.append(item)
+    return flat_list","def flatten_list(lst):
+    flat_list = []
+    for sublist in lst:
+        for item in sublist:
+            flat_list.append(item)
+    return flat_list"
+"def square_elements(lst):
+    squared_list = []
+    for num in lst:
+        squared_list.append(num ** 2)
+    return squared_list","def square_elements(lst):
+    squared_list = []
+    for num in lst:
+        squared_list.append(num ** 2)
+    return squared_list"
+"def to_uppercase(s):
+    uppercase_str = ''
+    for char in s:
+        uppercase_str += char.upper()
+    return uppercase_str","def to_uppercase(s):
+    uppercase_str = ''
+    for char in s:
+        uppercase_str += char.upper()
+    return uppercase_str"
+"def find_min(lst):
+    min_num = lst[0]
+    for num in lst:
+        if num < min_num:
+            min_num = num
+    return min_num","def find_min(lst):
+    min_num = lst[0]
+    for num in lst:
+        if num < min_num:
+            min_num = num
+    return min_num"
+"def filter_even(lst):
+    even_numbers = []
+    for num in lst:
+        if num % 2 == 0:
+            even_numbers.append(num)
+    return even_numbers","def filter_even(lst):
+    even_numbers = []
+    for num in lst:
+        if num % 2 == 0:
+            even_numbers.append(num)
+    return even_numbers"
+"def concatenate_strings(lst):
+    result = ''
+    for string in lst:
+        result += string
+    return result","def concatenate_strings(lst):
+    result = ''
+    for string in lst:
+        result += string
+    return result"
+"def remove_whitespace(s):
+    no_space_str = ''
+    for char in s:
+        if char != ' ':
+            no_space_str += char
+    return no_space_str","def remove_whitespace(s):
+    no_space_str = ''
+    for char in s:
+        if char != ' ':
+            no_space_str += char
+    return no_space_str"
+"def count_occurrences(lst, x):
+    count = 0
+    for elem in lst:
+        if elem == x:
+            count += 1
+    return count","def count_occurrences(lst, x):
+    count = 0
+    for elem in lst:
+        if elem == x:
+            count += 1
+    return count"
+"def all_unique(lst):
+    seen = []
+    for elem in lst:
+        if elem in seen:
+            return False
+        seen.append(elem)
+    return True","def all_unique(lst):
+    seen = []
+    for elem in lst:
+        if elem in seen:
+            return False
+        seen.append(elem)
+    return True"
+"def remove_negatives(lst):
+    non_negative_list = []
+    for num in lst:
+        if num >= 0:
+            non_negative_list.append(num)
+    return non_negative_list","def remove_negatives(lst):
+    non_negative_list = []
+    for num in lst:
+        if num >= 0:
+            non_negative_list.append(num)
+    return non_negative_list"
+"def capitalize_words(s):
+    words = s.split()
+    capitalized_words = []
+    for word in words:
+        capitalized_words.append(word.capitalize())
+    return ' '.join(capitalized_words)","def capitalize_words(s):
+    words = s.split()
+    capitalized_words = []
+    for word in words:
+        capitalized_words.append(word.capitalize())
+    return ' '.join(capitalized_words)"
+"def sum_even_numbers(lst):
+    total = 0
+    for num in lst:
+        if num % 2 == 0:
+            total += num
+    return total","def sum_even_numbers(lst):
+    total = 0
+    for num in lst:
+        if num % 2 == 0:
+            total += num
+    return total"
+"def reverse_words(s):
+    words = s.split()
+    reversed_words = []
+    for word in words:
+        reversed_words.insert(0, word)
+    return ' '.join(reversed_words)","def reverse_words(s):
+    words = s.split()
+    reversed_words = []
+    for word in words:
+        reversed_words.insert(0, word)
+    return ' '.join(reversed_words)"
+"def celsius_to_fahrenheit(celsius):
+    fahrenheit = []
+    for temp in celsius:
+        fahrenheit.append(temp * 9/5 + 32)
+    return fahrenheit","def celsius_to_fahrenheit(celsius):
+    fahrenheit = []
+    for temp in celsius:
+        fahrenheit.append(temp * 9/5 + 32)
+    return fahrenheit"
+"def intersection(lst1, lst2):
+    common_elements = []
+    for elem in lst1:
+        if elem in lst2:
+            common_elements.append(elem)
+    return common_elements","def intersection(lst1, lst2):
+    common_elements = []
+    for elem in lst1:
+        if elem in lst2:
+            common_elements.append(elem)
+    return common_elements"
+"def remove_empty_strings(lst):
+    result = []
+    for s in lst:
+        if s:
+            result.append(s)
+    return result","def remove_empty_strings(lst):
+    result = []
+    for s in lst:
+        if s:
+            result.append(s)
+    return result"
+"def longest_word(words):
+    longest = ''
+    for word in words:
+        if len(word) > len(longest):
+            longest = word
+    return longest","def longest_word(words):
+    longest = ''
+    for word in words:
+        if len(word) > len(longest):
+            longest = word
+    return longest"
+"def flatten_dict(d):
+    flat_list = []
+    for key, value in d.items():
+        flat_list.append((key, value))
+    return flat_list","def flatten_dict(d):
+    flat_list = []
+    for key, value in d.items():
+        flat_list.append((key, value))
+    return flat_list"
+"def average(lst):
+    total = 0
+    for num in lst:
+        total += num
+    return total / len(lst) if lst else 0","def average(lst):
+    total = 0
+    for num in lst:
+        total += num
+    return total / len(lst) if lst else 0"
+"def multiply_elements(lst):
+    product = 1
+    for num in lst:
+        product *= num
+    return product","def multiply_elements(lst):
+    product = 1
+    for num in lst:
+        product *= num
+    return product"
+"def is_anagram(str1, str2):
+    return sorted(str1) == sorted(str2)","def is_anagram(str1, str2):
+    return sorted(str1) == sorted(str2)"
+"def count_words(s):
+    words = s.split()
+    count = 0
+    for word in words:
+        count += 1
+    return count","def count_words(s):
+    words = s.split()
+    count = 0
+    for word in words:
+        count += 1
+    return count"
+"def filter_odd(lst):
+    odd_numbers = []
+    for num in lst:
+        if num % 2 != 0:
+            odd_numbers.append(num)
+    return odd_numbers","def filter_odd(lst):
+    odd_numbers = []
+    for num in lst:
+        if num % 2 != 0:
+            odd_numbers.append(num)
+    return odd_numbers"
+"def square_dict(lst):
+    squared = {}
+    for num in lst:
+        squared[num] = num ** 2
+    return squared","def square_dict(lst):
+    squared = {}
+    for num in lst:
+        squared[num] = num ** 2
+    return squared"
+"def char_frequency(s):
+    frequency = {}
+    for char in s:
+        if char in frequency:
+            frequency[char] += 1
+        else:
+            frequency[char] = 1
+    return frequency","def char_frequency(s):
+    frequency = {}
+    for char in s:
+        if char in frequency:
+            frequency[char] += 1
+        else:
+            frequency[char] = 1
+    return frequency"
+"def merge_dicts(dict1, dict2):
+    merged = dict1.copy()
+    for key, value in dict2.items():
+        merged[key] = value
+    return merged","def merge_dicts(dict1, dict2):
+    merged = dict1.copy()
+    for key, value in dict2.items():
+        merged[key] = value
+    return merged"
+"def is_subset(lst1, lst2):
+    for elem in lst1:
+        if elem not in lst2:
+            return False
+    return True","def is_subset(lst1, lst2):
+    for elem in lst1:
+        if elem not in lst2:
+            return False
+    return True"
+"def unique_chars(s):
+    unique = ''
+    for char in s:
+        if char not in unique:
+            unique += char
+    return unique","def unique_chars(s):
+    unique = ''
+    for char in s:
+        if char not in unique:
+            unique += char
+    return unique"
+"def string_lengths(lst):
+    lengths = []
+    for s in lst:
+        lengths.append(len(s))
+    return lengths","def string_lengths(lst):
+    lengths = []
+    for s in lst:
+        lengths.append(len(s))
+    return lengths"
+"def cumulative_sum(lst):
+    result = []
+    total = 0
+    for num in lst:
+        total += num
+        result.append(total)
+    return result","def cumulative_sum(lst):
+    result = []
+    total = 0
+    for num in lst:
+        total += num
+        result.append(total)
+    return result"
+"def find_duplicates(lst):
+    seen = set()
+    duplicates = []
+    for elem in lst:
+        if elem in seen:
+            duplicates.append(elem)
+        seen.add(elem)
+    return duplicates","def find_duplicates(lst):
+    seen = set()
+    duplicates = []
+    for elem in lst:
+        if elem in seen:
+            duplicates.append(elem)
+        seen.add(elem)
+    return duplicates"
+"def flatten_matrix(matrix):
+    flat_list = []
+    for row in matrix:
+        for elem in row:
+            flat_list.append(elem)
+    return flat_list","def flatten_matrix(matrix):
+    flat_list = []
+    for row in matrix:
+        for elem in row:
+            flat_list.append(elem)
+    return flat_list"
+"def count_characters(s):
+    count = 0
+    for char in s:
+        count += 1
+    return count","def count_characters(s):
+    count = 0
+    for char in s:
+        count += 1
+    return count"
+"def unique_words(s):
+    words = set()
+    for word in s.split():
+        words.add(word.lower())
+    return list(words)","def unique_words(s):
+    words = set()
+    for word in s.split():
+        words.add(word.lower())
+    return list(words)"
+"def remove_zeros(lst):
+    result = []
+    for num in lst:
+        if num != 0:
+            result.append(num)
+    return result","def remove_zeros(lst):
+    result = []
+    for num in lst:
+        if num != 0:
+            result.append(num)
+    return result"
+"def all_positive(lst):
+    for num in lst:
+        if num <= 0:
+            return False
+    return True","def all_positive(lst):
+    for num in lst:
+        if num <= 0:
+            return False
+    return True"
+"def sum_matrix(matrix):
+    total = 0
+    for row in matrix:
+        for num in row:
+            total += num
+    return total","def sum_matrix(matrix):
+    total = 0
+    for row in matrix:
+        for num in row:
+            total += num
+    return total"
+"def remove_punctuation(s):
+    result = ''
+    for char in s:
+        if char.isalnum() or char.isspace():
+            result += char
+    return result","def remove_punctuation(s):
+    result = ''
+    for char in s:
+        if char.isalnum() or char.isspace():
+            result += char
+    return result"
+"def power_list(lst, power):
+    result = []
+    for num in lst:
+        result.append(num ** power)
+    return result","def power_list(lst, power):
+    result = []
+    for num in lst:
+        result.append(num ** power)
+    return result"
+"def to_lowercase(s):
+    lowercase_str = ''
+    for char in s:
+        lowercase_str += char.lower()
+    return lowercase_str","def to_lowercase(s):
+    lowercase_str = ''
+    for char in s:
+        lowercase_str += char.lower()
+    return lowercase_str"
+"def sort_numbers(lst):
+    sorted_list = lst[:]
+    sorted_list.sort()
+    return sorted_list","def sort_numbers(lst):
+    sorted_list = lst[:]
+    sorted_list.sort()
+    return sorted_list"
+"def zip_lists(lst1, lst2):
+    zipped = []
+    for i in range(min(len(lst1), len(lst2))):
+        zipped.append((lst1[i], lst2[i]))
+    return zipped","def zip_lists(lst1, lst2):
+    zipped = []
+    for i in range(min(len(lst1), len(lst2))):
+        zipped.append((lst1[i], lst2[i]))
+    return zipped"
+"def sum_of_squares(lst):
+    total = 0
+    for num in lst:
+        total += num ** 2
+    return total","def sum_of_squares(lst):
+    total = 0
+    for num in lst:
+        total += num ** 2
+    return total"
+"def reverse_words_order(s):
+    words = s.split()
+    reversed_sentence = ' '.join(words[::-1])
+    return reversed_sentence","def reverse_words_order(s):
+    words = s.split()
+    reversed_sentence = ' '.join(words[::-1])
+    return reversed_sentence"
+"def double_elements(lst):
+    doubled_list = []
+    for num in lst:
+        doubled_list.append(num * 2)
+    return doubled_list","def double_elements(lst):
+    doubled_list = []
+    for num in lst:
+        doubled_list.append(num * 2)
+    return doubled_list"
+"def square_odd_numbers(lst):
+    squared_odds = []
+    for num in lst:
+        if num % 2 != 0:
+            squared_odds.append(num ** 2)
+    return squared_odds","def square_odd_numbers(lst):
+    squared_odds = []
+    for num in lst:
+        if num % 2 != 0:
+            squared_odds.append(num ** 2)
+    return squared_odds"
+"def are_all_elements_equal(lst):
+    first = lst[0]
+    for elem in lst:
+        if elem != first:
+            return False
+    return True","def are_all_elements_equal(lst):
+    first = lst[0]
+    for elem in lst:
+        if elem != first:
+            return False
+    return True"
+"def replace_spaces(s, char):
+    result = ''
+    for c in s:
+        if c == ' ':
+            result += char
+        else:
+            result += c
+    return result","def replace_spaces(s, char):
+    result = ''
+    for c in s:
+        if c == ' ':
+            result += char
+        else:
+            result += c
+    return result"
+"def transpose_matrix(matrix):
+    transposed = []
+    for i in range(len(matrix[0])):
+        row = []
+        for j in range(len(matrix)):
+            row.append(matrix[j][i])
+        transposed.append(row)
+    return transposed","def transpose_matrix(matrix):
+    transposed = []
+    for i in range(len(matrix[0])):
+        row = []
+        for j in range(len(matrix)):
+            row.append(matrix[j][i])
+        transposed.append(row)
+    return transposed"
+"def count_uppercase(s):
+    count = 0
+    for char in s:
+        if char.isupper():
+            count += 1
+    return count","def count_uppercase(s):
+    count = 0
+    for char in s:
+        if char.isupper():
+            count += 1
+    return count"
+"def filter_positive(lst):
+    positives = []
+    for num in lst:
+        if num > 0:
+            positives.append(num)
+    return positives","def filter_positive(lst):
+    positives = []
+    for num in lst:
+        if num > 0:
+            positives.append(num)
+    return positives"
+"def factorial_list(lst):
+    result = []
+    for num in lst:
+        result.append(factorial(num))
+    return result","def factorial_list(lst):
+    result = []
+    for num in lst:
+        result.append(factorial(num))
+    return result"
+"def sort_strings_by_length(lst):
+    sorted_list = sorted(lst, key=len)
+    return sorted_list","def sort_strings_by_length(lst):
+    sorted_list = sorted(lst, key=len)
+    return sorted_list"
+"def all_divisible(lst, divisor):
+    for num in lst:
+        if num % divisor != 0:
+            return False
+    return True","def all_divisible(lst, divisor):
+    for num in lst:
+        if num % divisor != 0:
+            return False
+    return True"
+"def strip_whitespace(lst):
+    stripped_list = []
+    for s in lst:
+        stripped_list.append(s.strip())
+    return stripped_list","def strip_whitespace(lst):
+    stripped_list = []
+    for s in lst:
+        stripped_list.append(s.strip())
+    return stripped_list"
+"def common_elements(lst1, lst2):
+    common = []
+    for elem in lst1:
+        if elem in lst2:
+            common.append(elem)
+    return common","def common_elements(lst1, lst2):
+    common = []
+    for elem in lst1:
+        if elem in lst2:
+            common.append(elem)
+    return common"
+"def add_prefix(lst, prefix):
+    result = []
+    for s in lst:
+        result.append(prefix + s)
+    return result","def add_prefix(lst, prefix):
+    result = []
+    for s in lst:
+        result.append(prefix + s)
+    return result"
+"def alternating_sum(lst):
+    total = 0
+    for i, num in enumerate(lst):
+        total += num if i % 2 == 0 else -num
+    return total","def alternating_sum(lst):
+    total = 0
+    for i, num in enumerate(lst):
+        total += num if i % 2 == 0 else -num
+    return total"
+"def filter_non_integers(lst):
+    integers = []
+    for elem in lst:
+        if isinstance(elem, int):
+            integers.append(elem)
+    return integers","def filter_non_integers(lst):
+    integers = []
+    for elem in lst:
+        if isinstance(elem, int):
+            integers.append(elem)
+    return integers"
+"def count_digits(s):
+    count = 0
+    for char in s:
+        if char.isdigit():
+            count += 1
+    return count","def count_digits(s):
+    count = 0
+    for char in s:
+        if char.isdigit():
+            count += 1
+    return count"
+"def concatenate_with_comma(lst):
+    result = ''
+    for s in lst:
+        result += s + ', '
+    return result.strip(', ')","def concatenate_with_comma(lst):
+    result = ''
+    for s in lst:
+        result += s + ', '
+    return result.strip(', ')"
+"def count_even_odd(lst):
+    even = sum(1 for num in lst if num % 2 == 0)
+    odd = sum(1 for num in lst if num % 2 != 0)
+    return even, odd","def count_even_odd(lst):
+    even = sum(1 for num in lst if num % 2 == 0)
+    odd = sum(1 for num in lst if num % 2 != 0)
+    return even, odd"
+"def words_starting_with(lst, char):
+    result = []
+    for word in lst:
+        if word.startswith(char):
+            result.append(word)
+    return result","def words_starting_with(lst, char):
+    result = []
+    for word in lst:
+        if word.startswith(char):
+            result.append(word)
+    return result"
+"def sum_until_negative(lst):
+    total = 0
+    for num in lst:
+        if num < 0:
+            break
+        total += num
+    return total","def sum_until_negative(lst):
+    total = 0
+    for num in lst:
+        if num < 0:
+            break
+        total += num
+    return total"
+"def pairwise_sum(lst1, lst2):
+    result = []
+    for a, b in zip(lst1, lst2):
+        result.append(a + b)
+    return result","def pairwise_sum(lst1, lst2):
+    result = []
+    for a, b in zip(lst1, lst2):
+        result.append(a + b)
+    return result"
+"def count_word_occurrences(s, word):
+    words = s.lower().split()
+    count = 0
+    for w in words:
+        if w == word.lower():
+            count += 1
+    return count","def count_word_occurrences(s, word):
+    words = s.lower().split()
+    count = 0
+    for w in words:
+        if w == word.lower():
+            count += 1
+    return count"
+"def are_all_vowels(s):
+    vowels = 'aeiouAEIOU'
+    for char in s:
+        if char not in vowels:
+            return False
+    return True","def are_all_vowels(s):
+    vowels = 'aeiouAEIOU'
+    for char in s:
+        if char not in vowels:
+            return False
+    return True"
+"def list_to_dict(lst):
+    result = {}
+    for index, item in enumerate(lst):
+        result[index] = item
+    return result","def list_to_dict(lst):
+    result = {}
+    for index, item in enumerate(lst):
+        result[index] = item
+    return result"
+"def rotate_list(lst, n):
+    rotated = lst[n:] + lst[:n]
+    return rotated","def rotate_list(lst, n):
+    rotated = lst[n:] + lst[:n]
+    return rotated"
+

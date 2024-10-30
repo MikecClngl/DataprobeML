@@ -1,8 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviews", null=True)
     review = models.FileField(upload_to='reviews/')  # "reviews/" directory where files are saved
 
     name = models.CharField(max_length = 255)
