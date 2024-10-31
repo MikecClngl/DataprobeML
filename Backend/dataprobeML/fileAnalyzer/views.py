@@ -112,7 +112,7 @@ def reviewApi(request, *args, **kwargs):
         errors = []
         
         if review_serializer.is_valid():
-            review_instance = review_serializer.save()
+            review_instance = review_serializer.save(user = request.user)
 
             file_path = os.path.join('files/reviews', file.name)
             with open(file_path, 'wb+') as destination:

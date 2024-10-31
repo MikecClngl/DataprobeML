@@ -140,6 +140,7 @@ export class HomePage implements OnInit{
   //Alert for enter the name of review
   async presentReviewNameAlert() {
     const token = localStorage.getItem('token') || '';
+    console.log(token)
     const alert = await this.alertController.create({
       header: 'Insert review name:',
       inputs: [

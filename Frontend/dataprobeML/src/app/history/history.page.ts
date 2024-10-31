@@ -72,7 +72,8 @@ export class HistoryPage implements OnInit {
 
   // function to delete a review
   deleteReview(reviewId: number) {
-    this.reviewService.deleteReview(reviewId).subscribe(
+    const token = localStorage.getItem('token') || ''
+    this.reviewService.deleteReview(reviewId, token).subscribe(
       response => {
         console.log('Review deleted succesfully', response);
         this.deletedAlertConfirm();
