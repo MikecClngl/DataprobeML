@@ -1,20 +1,48 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding" fullscreen="true">
+  <div class="background"></div>
 
-<ion-content>
-  <ion-item>
-    <ion-label position="floating">Username</ion-label>
-    <ion-input [(ngModel)]="username"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">Password</ion-label>
-    <ion-input [(ngModel)]="password" type="password"></ion-input>
-  </ion-item>
-  <ion-button expand="full" (click)="login()">Login</ion-button>
-  <p *ngIf="errorMessage">{{ errorMessage }}</p>
-  <ion-button expand="full" routerLink="/register">Registrati</ion-button>
+  <div class="glowing">
+    <span style="--i:1"></span>
+    <span style="--i:2"></span>
+    <span style="--i:3"></span>
+    <span style="--i:1"></span>
+    <span style="--i:2"></span>
+    <span style="--i:3"></span>
+    <span style="--i:1"></span>
+    <span style="--i:2"></span>
+    <span style="--i:3"></span>
+    <span style="--i:1"></span>
+    <span style="--i:2"></span>
+    <span style="--i:3"></span>
+  </div>
+
+  <div class="logo-container">
+    <img src="assets/icon/Logo.png" alt="Logo" class="logo">
+  </div>
+
+  <h4 class="subtitle">Login to Your Account</h4>
+
+  <ion-card class="custom-card">
+    <ion-card-content class="card-content">
+      <ion-item lines="none">
+        <ion-label position="floating">Username</ion-label>
+        <ion-input [(ngModel)]="username" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="password-item">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input [(ngModel)]="password" type="password"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" shape="round" class="login-button" (click)="login()">Login</ion-button>
+
+      <ion-text color="medium">
+        <p>Don't have an account? <a (click)="navigateToRegister()">Sign Up</a></p>
+      </ion-text>
+
+      <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
+
 
