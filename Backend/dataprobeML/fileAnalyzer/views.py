@@ -9,7 +9,6 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.parsers import JSONParser
 import json
 import os
-import logging
 
 from .services import *
 from .models import Review
@@ -29,7 +28,6 @@ def register_user(request):
         if User.objects.filter(username=username).exists():
             return JsonResponse({'error': 'Username already exists'}, status=400)
 
-        # Create User
         user = User.objects.create_user(username=username, password=password, email=email)
         
         user.save()
@@ -37,7 +35,7 @@ def register_user(request):
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
-# Funzione per il login
+# Login function
 @csrf_exempt
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -46,30 +44,21 @@ def login_user(request):
         username = request.data.get('username')
         password = request.data.get('password')
 
-        # Autenticazione dell'utente
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             
-            # Ottieni o crea il token per l'utente autenticato
             token, created = Token.objects.get_or_create(user=user)
             
-            # Restituisci il token come stringa nel JSON
             return JsonResponse({
                 'message': 'Login successful', 
-                'token': token.key  # serializziamo solo `token.key`
+                'token': token.key,
+                'username': username
             })
         else:
             return JsonResponse({'error': 'Invalid credentials'}, status=400)
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
-
-logger = logging.getLogger(__name__)
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])  # Richiede autenticazione
-def token_auth_test(request):
-    return JsonResponse({"message": "Token riconosciuto", "user": request.user.username})
 
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
 @parser_classes([MultiPartParser, FormParser])

@@ -13,6 +13,7 @@ export class RegisterPage implements OnInit {
   password = ''
   errorMessage: string = ''
   email = ''
+  successMessage: string='';
 
   constructor(
     private authService: AuthService,
@@ -33,16 +34,18 @@ export class RegisterPage implements OnInit {
 
   async register() {
     try {
-      const response = await this.authService.register(this.username, this.password, this.email).toPromise();
-      if (response && response.message === 'User registered successfully') {
-        this.router.navigate(['/login']);
-      } else {
-        this.errorMessage = 'Registration failed';
-      }
+        const response = await this.authService.register(this.username, this.password, this.email).toPromise();
+        if (response && 'message' in response) {
+            this.successMessage = response.message;
+            this.router.navigate(['/home']);
+        } else if (response && 'error' in response) {
+            this.errorMessage = response.error;
+            console.log(this.errorMessage)
+        }
     } catch (error) {
-      this.errorMessage = 'Error during registration';
+        this.errorMessage = 'Error during registration. Retry.';
     }
-  }
+}
 
   navigateToLogin(){
     this.router.navigate(['/login']);
