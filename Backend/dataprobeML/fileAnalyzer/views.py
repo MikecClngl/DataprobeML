@@ -103,16 +103,11 @@ def reviewApi(request, *args, **kwargs):
         if review_serializer.is_valid():
             review_instance = review_serializer.save(user = request.user)
 
-            file_path = os.path.join('files/reviews', file.name)
-            with open(file_path, 'wb+') as destination:
-                for chunk in file.chunks():
-                    destination.write(chunk)
+            file_path = review_instance.review.path
 
             if 'BLEU' in review_data['reviewModes']:
                 try:
-                    bleuScores, updated_file_path = calculate_bleu_csv(file_path, candidateColumn, referenceColumn)
-                    relative_path = os.path.relpath(updated_file_path, start=os.path.dirname(file_path))
-                    review_instance.review.name = f"reviews/{relative_path}" if not relative_path.startswith("reviews/") else relative_path
+                    bleuScores = calculate_bleu_csv(file_path, candidateColumn, referenceColumn)
                     review_instance.bleuScore = bleuScores
                 except Exception as e:
                     errors.append({"type": "BLEU", "error": str(e)})
