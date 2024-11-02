@@ -110,7 +110,9 @@ def reviewApi(request, *args, **kwargs):
 
             if 'BLEU' in review_data['reviewModes']:
                 try:
-                    bleuScores = calculate_bleu_from_csv(file_path, candidateColumn, referenceColumn)
+                    bleuScores, updated_file_path = calculate_bleu_csv(file_path, candidateColumn, referenceColumn)
+                    relative_path = os.path.relpath(updated_file_path, start=os.path.dirname(file_path))
+                    review_instance.review.name = f"reviews/{relative_path}" if not relative_path.startswith("reviews/") else relative_path
                     review_instance.bleuScore = bleuScores
                 except Exception as e:
                     errors.append({"type": "BLEU", "error": str(e)})

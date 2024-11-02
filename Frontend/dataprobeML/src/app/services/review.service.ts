@@ -51,7 +51,7 @@ export class ReviewService {
       name: reviewLabel
     };
 
-    const token = localStorage.getItem('token'); 
+    const token = localStorage.getItem('token');
     if (!token) {
       console.error('Token not found');
       return;
@@ -73,6 +73,5 @@ export class ReviewService {
         console.error('PUT Error:', error);
       }
     );
-}
-
+  }
 }

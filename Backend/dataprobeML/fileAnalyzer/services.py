@@ -1,26 +1,25 @@
 import csv
+from datetime import *
 import io
+import os
 import sacrebleu
 import pandas as pd
 import ast
 from difflib import SequenceMatcher
 
 #Functions for calculate BLEU score
-def calculate_bleu_score(reference_texts, candidate_text):
-    score = sacrebleu.sentence_bleu(candidate_text, reference_texts)
-    return score.score
-
-def calculate_bleu_from_csv(file_path, candidate_column, reference_column):
+def calculate_bleu_csv(file_path, candidate_column, reference_column):
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
     
     content = content.replace(',\n', ',') 
     content = "\n".join([line for line in content.splitlines() if line.strip()])
-
     df = pd.read_csv(io.StringIO(content), quoting=csv.QUOTE_MINIMAL, skipinitialspace=True)
 
+    # Liste per i riferimenti e candidati totali per il BLEU complessivo
     references = []
     candidates = []
+    bleu_scores = [] 
 
     reference_column = reference_column.strip()
     candidate_column = candidate_column.strip()
@@ -30,15 +29,26 @@ def calculate_bleu_from_csv(file_path, candidate_column, reference_column):
         candidate_text = str(row[candidate_column]).strip()
         
         try:
+            bleu_score = sacrebleu.corpus_bleu([candidate_text], [[reference_text]]).score
+            bleu_scores.append(f"{bleu_score:.2f}") 
             references.append(reference_text)
             candidates.append(candidate_text)
-
         except Exception as e:
             print(f"Error calculating BLEU score in row: {row}")
             print(f"Error: {e}")
+            bleu_scores.append('-1')
 
-    overall_bleu_score = sacrebleu.corpus_bleu(candidates, [references])
-    return overall_bleu_score.score
+    df['BLEU_Score'] = bleu_scores
+
+    base_name, ext = os.path.splitext(os.path.basename(file_path))
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    new_file_name = f"{base_name}_{timestamp}{ext}"
+    new_file_path = os.path.join(os.path.dirname(file_path), new_file_name)
+
+    overall_bleu_score = sacrebleu.corpus_bleu(candidates, [references]).score
+
+    df.to_csv(new_file_path, index=False, quoting=csv.QUOTE_MINIMAL)
+    return overall_bleu_score, new_file_path
 
 #Functions for calculate CodeBLEU score
 def get_ast_similarity(reference_code, candidate_code):
