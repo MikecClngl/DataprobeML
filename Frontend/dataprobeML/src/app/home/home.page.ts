@@ -440,4 +440,9 @@ export class HomePage implements OnInit{
   navigateToHistory(){
       this.router.navigate(['/history']);
   }
+
+  navigateToLogin(){
+    localStorage.removeItem('token');
+    this.router.navigate(['/login'])
+  }
 }

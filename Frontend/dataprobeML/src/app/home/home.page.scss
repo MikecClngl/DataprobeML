@@ -271,6 +271,7 @@ ion-content {
 .upload-button {
   background-color: transparent;
   color: #4a90e2;
+  --background-hover: #3a77c800;
   margin-bottom: 10px;
   padding: 10px 20px;
   height: 1rem;
@@ -298,4 +299,14 @@ ion-content {
   --spinner-color: #1c6dff;
 
   color: #1c6dff;
+}
+
+.logout-button{
+  --background: #4a91e200;
+  --background-hover: #3a77c800;
+  --ripple-color: transparent;
+  box-shadow: none;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }

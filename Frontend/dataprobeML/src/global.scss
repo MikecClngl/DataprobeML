@@ -167,3 +167,12 @@ ion-loading{
   font-size: 30px;
   display: flex;
 }
+
+.alert-radio-inner.sc-ion-alert-md {
+  position: absolute;
+  inset-inline-start: 3.2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--ion-color-primary, #19273f);
+}
