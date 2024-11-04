@@ -89,10 +89,9 @@ export class HomePage implements OnInit{
   async presentLoading() {
     const loading = await this.loadingController.create({
       message: 'Processing results...',
-      duration: 0,
+      backdropDismiss: true,
       spinner: 'crescent',
       cssClass: 'custom-loading',
-      backdropDismiss: false,
       id : 'open-loading'
     });
     await loading.present();
@@ -359,18 +358,22 @@ export class HomePage implements OnInit{
 
     const review = new Review(this.selectedFile, reviewLabel, reviewLabel, new Date(), this.reviewModes, this.bleuScore, this.crystalBleuScore, this.codeBleuScore, this.selectedCandidateColumn, this.selectedReferenceColumn);
 
+    localStorage.setItem('analysis_in_progress', 'true');
+    localStorage.setItem('analysis_in_progressName', reviewLabel);
     this.analysisInProgress = true;
 
     this.presentLoading().then(loading => {
       this.reviewService.uploadReview(review, token).subscribe(response =>{
         console.log('Review uploaded succesfully:', response);
         this.presentConfirmationUploadAlert();
-        this.resultsService.setResults(response);
         this.analysisInProgress = false;
+        localStorage.setItem('analysis_in_progress', 'false');
+        this.resultsService.setResults(response);
         loading.dismiss();
       }, error => {
-        console.error('Error during review upload:', error);
         this.analysisInProgress = false;
+        localStorage.setItem('analysis_in_progress', 'false');
+        console.error('Error during review upload:', error);
         loading.dismiss();
       });
     });

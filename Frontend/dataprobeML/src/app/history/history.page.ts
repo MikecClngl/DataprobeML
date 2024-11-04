@@ -17,6 +17,9 @@ export class HistoryPage implements OnInit {
   searchTerm: string = '';
   searchDate: string = '';
   filteredReviews: Review[] = [];
+  analysisInProgress: boolean = false;
+  analysisInProgressName: string = ' ';
+  intervalId: any = 0;
 
   constructor(
     private router: Router,
@@ -29,6 +32,25 @@ export class HistoryPage implements OnInit {
     const token = localStorage.getItem('token') || ''
     this.title.setTitle("DataprobeML - History")
     this.loadReviews(token);
+    if(localStorage.getItem('analysis_in_progress') === 'true'){
+      this.analysisInProgress = true;
+      this.analysisInProgressName = localStorage.getItem('analysis_in_progressName') || '';
+      this.startAnalysisCheckInterval()
+    }
+  }
+
+  startAnalysisCheckInterval() {
+    this.intervalId = setInterval(() => {
+      const analysisStatus = localStorage.getItem('analysis_in_progress') === 'true';
+
+      if (this.analysisInProgress !== analysisStatus) {
+        this.analysisInProgress = analysisStatus;
+
+        if (!this.analysisInProgress) {
+          clearInterval(this.intervalId);
+        }
+      }
+    }, 2000);
   }
 
   loadReviews(token: string) {

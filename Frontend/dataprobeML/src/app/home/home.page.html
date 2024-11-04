@@ -26,7 +26,7 @@
           </div>
         </div>
         <ion-icon name="document-outline" class="file-icon"></ion-icon>
-        <ion-button class="upload-button" fill="clear" (click)="fileInput.click()"  *ngIf="!fileIsInsert">Choose File</ion-button>
+        <ion-button class="upload-button" fill="clear" (click)="fileInput.click()" [disabled]="fileIsInsert || analysisInProgress">Choose File</ion-button>
         <input type="file" hidden (change)="handleFileInput($event)" #fileInput accept=".csv">
 
         <!--File name if this is insert-->
@@ -37,7 +37,7 @@
       </div>
 
       <!--Button to see the analysis history-->
-      <ion-button *ngIf="!fileIsInsert" shape="round" class="view-history" (click)="navigateToHistory()">
+      <ion-button shape="round" class="view-history" (click)="navigateToHistory()">
         <p class="viewHistoryText">View History</p>
       </ion-button>
 
