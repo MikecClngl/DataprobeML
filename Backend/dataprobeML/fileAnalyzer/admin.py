@@ -3,6 +3,6 @@ from fileAnalyzer.models import Review
 
 # Register your models here.
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'name', 'description', 'date', 'review' , 'reviewModes', 'bleuScore', 'crystalBleuScore', 'codeBleuScore']
+    list_display = ['id', 'user', 'name', 'description', 'date', 'review' , 'reviewModes', 'bleuScore', 'crystalBleuScore', 'codeBleuScore', 'meteorScore', 'rougeScore']
     
 admin.site.register(Review, ReviewAdmin)

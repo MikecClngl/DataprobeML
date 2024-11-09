@@ -24,6 +24,14 @@
               <h2>CrystalBLEU Score: {{ review.score | number: '.0-2' }}%</h2>
               <ion-progress-bar class="score-bar" [value]="review.score / 100"></ion-progress-bar>
             </div>
+            <div class="score-div" *ngIf="review.type === 'Rouge' ">
+              <h2>Rouge Score: {{ review.score | number: '.0-2' }}%</h2>
+              <ion-progress-bar class="score-bar" [value]="review.score / 100"></ion-progress-bar>
+            </div>
+            <div class="score-div" *ngIf="review.type === 'Meteor' ">
+              <h2>Meteor Score: {{ review.score | number: '.0-2' }}%</h2>
+              <ion-progress-bar class="score-bar" [value]="review.score / 100"></ion-progress-bar>
+            </div>
           </div>
         </div>
 

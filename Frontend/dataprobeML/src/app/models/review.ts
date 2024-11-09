@@ -8,6 +8,8 @@ export class Review {
   bleuScore: number = -1;
   crystalBleuScore: number = -1;
   codeBleuScore: number = -1;
+  rougeScore: number = -1;
+  meteorScore: number = -1;
   candidateColumn: string;
   referenceColumn: string
 
@@ -20,6 +22,8 @@ export class Review {
     bleuScore: number,
     crystalBleuScore: number,
     codeBleuScore: number,
+    rougeScore: number,
+    meteorScore: number,
     candidateColumn: string,
     referenceColumn: string,
     id?: number,
@@ -34,6 +38,8 @@ export class Review {
     this.bleuScore = bleuScore;
     this.crystalBleuScore = crystalBleuScore;
     this.codeBleuScore = codeBleuScore;
+    this.rougeScore = rougeScore;
+    this.meteorScore = meteorScore;
     this.candidateColumn = candidateColumn;
     this.referenceColumn = referenceColumn;
   }

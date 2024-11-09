@@ -44,6 +44,8 @@ export class HomePage implements OnInit{
   bleuScore: number = -1;
   crystalBleuScore: number = -1;
   codeBleuScore: number = -1;
+  rougeScore: number = -1;
+  meteorScore: number = -1;
   reviews: Review[] = [];
 
 
@@ -278,6 +280,20 @@ export class HomePage implements OnInit{
           label: 'CrystalBLEU',
           value: 'CRYSTALBLEU',
           checked: this.reviewModes.includes('CrystalBLEU')
+        },
+        {
+          name: 'Rouge',
+          type: 'checkbox',
+          label: 'Rouge',
+          value: 'ROUGE',
+          checked: this.reviewModes.includes('Rouge')
+        },
+        {
+          name: 'Meteor',
+          type: 'checkbox',
+          label: 'Meteor',
+          value: 'METEOR',
+          checked: this.reviewModes.includes('Meteor')
         }
       ],
       buttons: [
@@ -356,7 +372,7 @@ export class HomePage implements OnInit{
       return;
     }
 
-    const review = new Review(this.selectedFile, reviewLabel, reviewLabel, new Date(), this.reviewModes, this.bleuScore, this.crystalBleuScore, this.codeBleuScore, this.selectedCandidateColumn, this.selectedReferenceColumn);
+    const review = new Review(this.selectedFile, reviewLabel, reviewLabel, new Date(), this.reviewModes, this.bleuScore, this.crystalBleuScore, this.codeBleuScore, this.rougeScore, this.meteorScore, this.selectedCandidateColumn, this.selectedReferenceColumn);
 
     localStorage.setItem('analysis_in_progress', 'true');
     localStorage.setItem('analysis_in_progressName', reviewLabel);

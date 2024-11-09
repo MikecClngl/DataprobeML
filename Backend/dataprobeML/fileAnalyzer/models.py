@@ -14,6 +14,8 @@ class Review(models.Model):
     bleuScore = models.FloatField(default=-1)
     crystalBleuScore = models.FloatField(default=-1)
     codeBleuScore = models.FloatField(default=-1)
+    meteorScore = models.FloatField(default=-1)
+    rougeScore = models.FloatField(default=-1)
     candidateColumn = models.CharField(max_length=100, null=True, blank=True)
     referenceColumn = models.CharField(max_length=100, null=True, blank=True)
 

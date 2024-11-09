@@ -6,9 +6,13 @@ import re
 import sacrebleu
 import pandas as pd
 import ast
+import evaluate
 from difflib import SequenceMatcher
 
-#Functions for calculate BLEU score
+meteor_metric = evaluate.load("meteor")
+rouge_metric = evaluate.load("rouge")
+
+#BLEU score
 def calculate_bleu_csv(file_path, candidate_column, reference_column):
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
@@ -46,14 +50,14 @@ def calculate_bleu_csv(file_path, candidate_column, reference_column):
 
     return overall_bleu_score
 
-#Functions for calculate CodeBLEU score
+#CodeBLEU score
 def get_ast_similarity(reference_code, candidate_code):
     reference_ast = ast.parse(reference_code)
     candidate_ast = ast.parse(candidate_code)
-    
+
     reference_nodes = [node.__class__.__name__ for node in ast.walk(reference_ast)]
     candidate_nodes = [node.__class__.__name__ for node in ast.walk(candidate_ast)]
-    
+
     common_nodes = set(reference_nodes) & set(candidate_nodes)
     total_nodes = set(reference_nodes) | set(candidate_nodes)
     
@@ -124,7 +128,7 @@ def calculate_code_bleu_from_csv(file_path, candidate_column, reference_column):
     
     return {"score": average_codebleu_score, "errors": errors}
 
-#Functions for calculate CrystalBLEU score
+#CrystalBLEU score
 def remove_trivial_tokens(code):
     trivial_tokens = r"[{}();,\s]+"
     return re.sub(trivial_tokens, " ", code).strip()
@@ -167,3 +171,63 @@ def calculate_crystal_bleu_from_csv(file_path, candidate_column, reference_colum
     average_crystalbleu_score = total_crystalbleu_score / count if count > 0 else 0
     
     return {"score": average_crystalbleu_score, "errors": errors}
+
+# METEOR score
+def calculate_meteor_from_csv(file_path, candidate_column, reference_column):
+    df = pd.read_csv(file_path)
+    meteor_scores = []
+    total_meteor_score = 0
+    count = 0
+    errors = []
+
+    for index, row in df.iterrows():
+        candidate_text = str(row[candidate_column]).strip()
+        reference_text = str(row[reference_column]).strip()
+        try:
+            result = meteor_metric.compute(predictions=[candidate_text], references=[reference_text])
+            score = result.get('meteor', None)
+            if score is not None:
+                meteor_score = float(score)
+                meteor_scores.append(round(meteor_score, 2)*100)
+                total_meteor_score += meteor_score
+                count += 1
+            else:
+                raise ValueError("METEOR score not found in result.")
+        except Exception as e:
+            print(f"Error calculating METEOR score in row {index + 2}: {e}")
+            meteor_scores.append(None)
+            errors.append({"type": "METEOR", "error": str(e)})
+
+    df['METEOR_Score'] = meteor_scores
+    df.to_csv(file_path, index=False)
+
+    average_meteor = total_meteor_score / count if count > 0 else 0
+    return {"score": average_meteor*100, "errors": errors}
+
+# ROUGE score
+def calculate_rouge_from_csv(file_path, candidate_column, reference_column):
+    df = pd.read_csv(file_path)
+    rouge_scores = []
+    total_rouge_score = 0
+    count = 0
+    errors = []
+
+    for index, row in df.iterrows():
+        candidate_text = str(row[candidate_column]).strip()
+        reference_text = str(row[reference_column]).strip()
+        try:
+            result = rouge_metric.compute(predictions=[candidate_text], references=[reference_text])['rouge1']
+            rouge_score = float(result) 
+            rouge_scores.append(round(rouge_score, 2)*100)
+            total_rouge_score += rouge_score
+            count += 1
+        except Exception as e:
+            print(f"Error calculating ROUGE score in row {index + 2}: {e}")
+            rouge_scores.append(None)
+            errors.append({"type": "ROUGE", "error": str(e)})
+
+    df[f"Rouge_Score"] = rouge_scores
+    df.to_csv(file_path, index=False)
+
+    average_rouge = total_rouge_score / count if count > 0 else 0
+    return {"score": average_rouge*100, "errors": errors}

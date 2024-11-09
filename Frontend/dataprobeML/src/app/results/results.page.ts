@@ -61,7 +61,7 @@ export class ResultsPage implements OnInit {
 
   filterAnalyses() {
     if (this.results) {
-      const { bleuScore, crystalBleuScore, codeBleuScore } = this.results;
+      const { bleuScore, crystalBleuScore, codeBleuScore, rougeScore, meteorScore } = this.results;
 
       if (bleuScore !== -1 && bleuScore !== 0) {
         this.analyses.push({ type: 'BLEU', score: bleuScore });
@@ -73,6 +73,14 @@ export class ResultsPage implements OnInit {
 
       if (codeBleuScore !== -1 && codeBleuScore !== 0) {
         this.analyses.push({ type: 'CodeBLEU', score: codeBleuScore });
+      }
+
+      if (rougeScore !== -1 && rougeScore !== 0) {
+        this.analyses.push({ type: 'Rouge', score: rougeScore });
+      }
+
+      if (meteorScore !== -1 && meteorScore !== 0) {
+        this.analyses.push({ type: 'Meteor', score: meteorScore });
       }
     }
   }

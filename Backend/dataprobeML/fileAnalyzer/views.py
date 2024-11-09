@@ -132,6 +132,26 @@ def reviewApi(request, *args, **kwargs):
                 except Exception as e:
                     errors.append({"type": "CODEBLEU", "error": str(e)})
             
+            if 'METEOR' in review_data['reviewModes']:
+                try:
+                    result = calculate_meteor_from_csv(file_path, candidateColumn, referenceColumn)
+                    meteorScore = result['score']
+                    review_instance.meteorScore = meteorScore
+                    if result.get('errors'):
+                        errors.extend([{"type": "METEOR", "error": error["error"], "row": error["row"]} for error in result['errors']])
+                except Exception as e:
+                    errors.append({"type": "METEOR", "error": str(e)})
+
+            if 'ROUGE' in review_data['reviewModes']:
+                try:
+                    result = calculate_rouge_from_csv(file_path, candidateColumn, referenceColumn)
+                    rougeScore = result['score']
+                    review_instance.rougeScore = rougeScore
+                    if result.get('errors'):
+                        errors.extend([{"type": "ROUGE", "error": error["error"], "row": error["row"]} for error in result['errors']])
+                except Exception as e:
+                    errors.append({"type": "ROUGE", "error": str(e)})
+            
             review_instance.save()
 
             file_url = request.build_absolute_uri(review_instance.review.url)
@@ -142,6 +162,8 @@ def reviewApi(request, *args, **kwargs):
                                  "bleuScore": review_instance.bleuScore,
                                  "crystalBleuScore": review_instance.crystalBleuScore,
                                  "codeBleuScore": review_instance.codeBleuScore,
+                                 "rougeScore": review_instance.rougeScore,
+                                 "meteorScore": review_instance.meteorScore,
                                  "candidateColumn": review_instance.candidateColumn,
                                  "referenceColumn": review_instance.referenceColumn,
                                  "errors": errors
