@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
@@ -19,6 +20,7 @@ export class RegisterPage implements OnInit {
     private authService: AuthService,
     private router: Router,
     private titleService: Title,
+    private alertController: AlertController,
   ) { }
 
   ngOnInit() {
@@ -37,7 +39,7 @@ export class RegisterPage implements OnInit {
         const response = await this.authService.register(this.username, this.password, this.email).toPromise();
         if (response && 'message' in response) {
             this.successMessage = response.message;
-            this.router.navigate(['/home']);
+            this.registrationConfirm();
         } else if (response && 'error' in response) {
             this.errorMessage = response.error;
             console.log(this.errorMessage)
@@ -45,10 +47,24 @@ export class RegisterPage implements OnInit {
     } catch (error) {
         this.errorMessage = 'Error during registration. Retry.';
     }
-}
+  }
+
+  async registrationConfirm(){
+    const alert = await this.alertController.create({
+      header: "Account created!",
+      message: "Log into your account",
+      buttons:[{
+        text: 'OK',
+        cssClass: 'alert-button-blue',
+        handler: () => {
+          this.navigateToLogin()
+        }
+      }]
+    });
+    await alert.present();
+  }
 
   navigateToLogin(){
     this.router.navigate(['/login']);
   }
-
 }

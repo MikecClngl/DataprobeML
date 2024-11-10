@@ -263,7 +263,7 @@ export class ResultsPage implements OnInit {
         }
       }]
     });
-
+    
     await alert.present();
   }
 
