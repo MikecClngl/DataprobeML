@@ -15,11 +15,14 @@ ion-content {
   margin-top: 0;
   padding: 0;
   display: absolute;
+  --background-hover: #3a77c800
 }
 
 .trash-button{
   min-height: 5em;
   min-width: 5em;
+  --background-hover: #3a77c800
+  background-color: transparent;
 }
 
 .ion-padding {
@@ -69,6 +72,7 @@ ion-content {
   align-items: center;
   word-break: keep-all;
   white-space: normal;
+  --background-hover: #3a77c800
 }
 
 .history-item ion-label,
@@ -77,6 +81,7 @@ ion-content {
   text-align: center;
   background-color: transparent !important;
   width: 50%;
+  --background-hover: #3a77c800
 }
 
 .no-review {
@@ -90,5 +95,34 @@ ion-content {
   justify-content: center;
   text-align: center;
 }
+
+.flex-center {
+  display: flex;
+}
+
+.sortButton {
+  margin-left: 3px;
+  margin-top: -8px;
+}
+
+.header-label {
+  display: flex;
+  margin: 0;
+}
+
+.tag {
+  display: inline-block;
+  padding: 4px 8px;
+  margin: 2px;
+  border: 1px solid #256ec2;
+  color: #8d949d;
+  border-radius: 12px;
+  font-size: 0.9em;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  background-color: transparent;
+}
+
 
 

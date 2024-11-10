@@ -71,6 +71,19 @@ ion-progress-bar {
   white-space: pre-line;
 }
 
+.changeName{
+  color: white;
+  border-radius: 30px;
+  align-items: center;
+}
+
+.changeDeleteDiv {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  gap: 10px;
+}
+
 .noResultsMessage{
   font-size: x-large;
 }

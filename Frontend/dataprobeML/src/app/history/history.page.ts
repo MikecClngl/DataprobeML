@@ -17,6 +17,9 @@ export class HistoryPage implements OnInit {
   searchTerm: string = '';
   searchDate: string = '';
   filteredReviews: Review[] = [];
+  analysisInProgress: boolean = false;
+  analysisInProgressName: string = ' ';
+  intervalId: any = 0;
 
   constructor(
     private router: Router,
@@ -26,12 +29,32 @@ export class HistoryPage implements OnInit {
   ) {}
 
   async ngOnInit() {
+    const token = localStorage.getItem('token') || ''
     this.title.setTitle("DataprobeML - History")
-    this.loadReviews();
+    this.loadReviews(token);
+    if(localStorage.getItem('analysis_in_progress') === 'true'){
+      this.analysisInProgress = true;
+      this.analysisInProgressName = localStorage.getItem('analysis_in_progressName') || '';
+      this.startAnalysisCheckInterval()
+    }
   }
 
-  loadReviews() {
-    this.reviewService.loadReview().subscribe(
+  startAnalysisCheckInterval() {
+    this.intervalId = setInterval(() => {
+      const analysisStatus = localStorage.getItem('analysis_in_progress') === 'true';
+
+      if (this.analysisInProgress !== analysisStatus) {
+        this.analysisInProgress = analysisStatus;
+
+        if (!this.analysisInProgress) {
+          clearInterval(this.intervalId);
+        }
+      }
+    }, 2000);
+  }
+
+  loadReviews(token: string) {
+    this.reviewService.loadReview(token).subscribe(
       (data: Review[]) => {
         this.reviews = data;
         this.filteredReviews = this.reviews;
@@ -71,7 +94,8 @@ export class HistoryPage implements OnInit {
 
   // function to delete a review
   deleteReview(reviewId: number) {
-    this.reviewService.deleteReview(reviewId).subscribe(
+    const token = localStorage.getItem('token') || ''
+    this.reviewService.deleteReview(reviewId, token).subscribe(
       response => {
         console.log('Review deleted succesfully', response);
         this.deletedAlertConfirm();
