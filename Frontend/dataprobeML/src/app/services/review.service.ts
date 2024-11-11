@@ -23,6 +23,7 @@ export class ReviewService {
     formData.append('reviewModes', JSON.stringify(review.reviewModes));
     formData.append('candidateColumn', review.candidateColumn);
     formData.append('referenceColumn', review.referenceColumn);
+    formData.append('language', review.language);
 
     const headers = new HttpHeaders({
       'Accept': 'application/json',

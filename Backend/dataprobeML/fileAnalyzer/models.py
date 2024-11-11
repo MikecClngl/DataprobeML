@@ -18,6 +18,7 @@ class Review(models.Model):
     rougeScore = models.FloatField(default=-1)
     candidateColumn = models.CharField(max_length=100, null=True, blank=True)
     referenceColumn = models.CharField(max_length=100, null=True, blank=True)
+    language = models.CharField(max_length=100, default="python")
 
     def __str__(self):
         return self.name

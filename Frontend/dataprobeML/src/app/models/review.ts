@@ -11,7 +11,8 @@ export class Review {
   rougeScore: number = -1;
   meteorScore: number = -1;
   candidateColumn: string;
-  referenceColumn: string
+  referenceColumn: string;
+  language: string;
 
   constructor(
     file: File,
@@ -26,6 +27,7 @@ export class Review {
     meteorScore: number,
     candidateColumn: string,
     referenceColumn: string,
+    language: string,
     id?: number,
   ){
 
@@ -42,5 +44,6 @@ export class Review {
     this.meteorScore = meteorScore;
     this.candidateColumn = candidateColumn;
     this.referenceColumn = referenceColumn;
+    this.language = language;
   }
 }

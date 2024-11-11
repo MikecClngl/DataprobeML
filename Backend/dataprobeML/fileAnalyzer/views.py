@@ -86,6 +86,7 @@ def reviewApi(request, *args, **kwargs):
         reviewModes = data.get('reviewModes')
         candidateColumn = data.get('candidateColumn')
         referenceColumn = data.get('referenceColumn')
+        language = data.get('language')
 
         review_data = {
             'review': file,
@@ -95,6 +96,7 @@ def reviewApi(request, *args, **kwargs):
             'reviewModes': json.loads(reviewModes) if reviewModes else [],
             'candidateColumn': candidateColumn,
             'referenceColumn': referenceColumn,
+            'language': language,
         }
 
         review_serializer = ReviewSerializer(data=review_data)
@@ -124,7 +126,7 @@ def reviewApi(request, *args, **kwargs):
             
             if 'CODEBLEU' in review_data['reviewModes']:
                 try:
-                    result = calculate_code_bleu_from_csv(file_path, candidateColumn, referenceColumn)
+                    result = calculate_code_bleu_from_csv(file_path, candidateColumn, referenceColumn, language)
                     codeBleuScores = result['score']
                     review_instance.codeBleuScore = codeBleuScores
                     if result.get('errors'):

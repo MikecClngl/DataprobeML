@@ -47,6 +47,7 @@ export class HomePage implements OnInit{
   rougeScore: number = -1;
   meteorScore: number = -1;
   reviews: Review[] = [];
+  selectedLanguage: string = '';
 
 
   isDragging: boolean = false;
@@ -304,7 +305,7 @@ export class HomePage implements OnInit{
             this.reviewModes = selectedValues;
             console.log('Selected analysis modes:', this.reviewModes);
             if(this.reviewModes.length > 0){
-              this.presentReviewNameAlert();
+              this.presentLanguageSelectionAlert();;
             }else{
               this.presentNoSelectionAlert();
             }
@@ -325,6 +326,97 @@ export class HomePage implements OnInit{
     await alert.present();
   }
 
+  // Alert for select programming language
+  async presentLanguageSelectionAlert() {
+  const alert = await this.alertController.create({
+    header: 'Select the programming language:',
+    inputs: [
+      {
+        name: 'language',
+        type: 'radio',
+        label: 'Python',
+        value: 'python',
+        checked: true
+      },
+      {
+        name: 'language',
+        type: 'radio',
+        label: 'JavaScript',
+        value: 'javascript'
+      },
+      {
+        name: 'language',
+        type: 'radio',
+        label: 'Java',
+        value: 'java'
+      },
+      {
+        name: 'language',
+        type: 'radio',
+        label: 'C++',
+        value: 'cpp'
+      },
+      {
+        name: 'language',
+        type: 'radio',
+        label: 'C',
+        value: 'c'
+      },
+      {
+        name: 'language',
+        type: 'radio',
+        label: 'C#',
+        value: 'c_sharp'
+      },
+      {
+        name: 'language',
+        type: 'radio',
+        label: 'Go',
+        value: 'go'
+      },
+      {
+        name: 'language',
+        type: 'radio',
+        label: 'Rust',
+        value: 'rust'
+      },
+      {
+        name: 'language',
+        type: 'radio',
+        label: 'Ruby',
+        value: 'ruby'
+      },
+      {
+        name: 'language',
+        type: 'radio',
+        label: 'PHP',
+        value: 'php'
+      },
+    ],
+    buttons: [
+      {
+        text: 'Confirm',
+        cssClass: 'alert-button-blue',
+        handler: (selectedLanguage) => {
+          this.selectedLanguage = selectedLanguage;
+          console.log('Selected programming language:', this.selectedLanguage);
+          this.presentReviewNameAlert();
+        }
+      },
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        cssClass: 'alert-button-red',
+        handler: () => {
+          console.log('Language selection cancelled');
+          window.location.reload();
+        }
+      }
+    ],
+    backdropDismiss: false,
+  });
+  await alert.present();
+  }
   //If no analysis types is chosen
   async presentNoSelectionAlert() {
     const alert = await this.alertController.create({
@@ -372,7 +464,7 @@ export class HomePage implements OnInit{
       return;
     }
 
-    const review = new Review(this.selectedFile, reviewLabel, reviewLabel, new Date(), this.reviewModes, this.bleuScore, this.crystalBleuScore, this.codeBleuScore, this.rougeScore, this.meteorScore, this.selectedCandidateColumn, this.selectedReferenceColumn);
+    const review = new Review(this.selectedFile, reviewLabel, reviewLabel, new Date(), this.reviewModes, this.bleuScore, this.crystalBleuScore, this.codeBleuScore, this.rougeScore, this.meteorScore, this.selectedCandidateColumn, this.selectedReferenceColumn, this.selectedLanguage);
 
     localStorage.setItem('analysis_in_progress', 'true');
     localStorage.setItem('analysis_in_progressName', reviewLabel);
