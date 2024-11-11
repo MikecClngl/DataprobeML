@@ -5,6 +5,9 @@ FROM python:3.12.2-slim
 # Working directory
 WORKDIR /dataprobeML
 
+# Install git before installing Python dependencies
+RUN apt-get update && apt-get install -y git
+
 # Copy requirements file
 COPY requirements.txt .
 
